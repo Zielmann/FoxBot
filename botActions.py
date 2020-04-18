@@ -268,7 +268,7 @@ def un_tf(ctx):
         name = ctx.content.split()[1][1:]
         current_species = util.readSpeciesFromCSV(name)
         if current_species == 'a human':
-            respnose = name + ' is already a human'
+            response = name + ' is already a human'
         else:
             species = 'a human'
             util.writeSpeciesToCSV(name, species)
