@@ -1,0 +1,106 @@
+a Wolf
+a Red Fox
+a Dragon
+a Cat
+a Tiger
+a Lion
+a Husky
+an Arctic Fox
+a Fennec Fox
+a Rabbit
+a Marten
+a Raccoon
+a Coyote
+a Sable
+an Otter
+a Cow
+a Hyena
+a Chicken
+a Snep
+a G-Shep
+a Weasel
+a Badger
+a Baguette
+a Deer
+an Alpaca
+a Roo
+a Bat
+a Red Panda
+a Bear
+a Squirrel
+a Fruit Bat
+a Crow
+a Raven
+a Blue Jay
+a Parakeet
+a Hawk
+a Boomrat
+a Caribou
+a Chaofox
+a Chaovix
+a Chaodino
+a Cougar
+a Leopard
+a Yorkshire Terrier
+an Elephant
+a Gazelle
+a Frog
+a Gecko
+an Iguana
+a Lynx
+a Panther
+a Rat 
+a Skullcat
+a Duck
+a Ferret
+a Sheep
+a Penguin
+a very fancy spork
+an Aardwolf
+a Porcupine
+a Snake
+an African Wild Dog
+a Wallaby
+an Alligator
+a Beaver
+an Anteater
+a Lemming
+an Armadillo
+a Whale
+a Shark
+a Bobcat
+a Lemur
+a Butterfly
+a Civet
+a Chipmunk
+a Zebra
+a Wombat
+a Turtle
+a Tortoise
+a Tasmanian Devil
+a Dingo
+a Reindeer
+an Emu
+a Flying Fox
+a Jackal
+a Jaguar
+a Koala
+a Llama
+a Meerkat
+a Moose
+a Mountain Lion
+a Mouse
+an Ocelot
+a Platypus
+a Polar Bear
+a Potoo
+a Puma
+a Rhinoceros
+a Sloth
+a Hedgehog
+an Owl
+a Warthog
+a Cassowary
+a Falcon
+an Ocotpus
+a Mongoose

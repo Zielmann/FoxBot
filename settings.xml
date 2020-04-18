@@ -1,0 +1,32 @@
+<settings>
+    <bot_setup>
+        <app_token></app_token>
+        <client_id></client_id>
+        <bot_account></bot_account>
+        <channel></channel>
+        <command_prefix>!</command_prefix>
+        <command_prefix>haurbu</command_prefix>
+        <logging>release</logging>
+    </bot_setup>
+    <social>
+        <twitter></twitter>
+        <discord></discord>
+    </social>
+    <games>
+        <rimworld>
+            <mods></mods>
+            <event_file></event_file>
+            <item_file></item_file>
+        </rimworld>
+        <factorio>
+            <mods></mods>
+        </factorio>
+        <avorion>
+            <profile_link></profile_link>
+        </avorion>
+    </games>
+    <custom_rewards>
+        <random_tf>3735ec1b-b3bf-4775-959a-451c9be5e533</random_tf>
+        <direct_tf>ee7b4f5e-2c61-43ba-889d-b3fe5425a323</direct_tf>
+    </custom_rewards>
+</settings>
