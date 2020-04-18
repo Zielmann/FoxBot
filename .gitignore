@@ -1,0 +1,8 @@
+__pycache__/
+.vscode/
+build/
+My Settings/
+Releases/
+FoxBot_log.txt
+tfList.csv
+quotes.json
