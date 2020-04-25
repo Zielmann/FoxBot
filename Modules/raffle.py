@@ -6,8 +6,12 @@ from twitchio.ext.commands.core import command
 @cog()
 class Raffle:
     
+    # Variables
+
     raffle = []
     active = False
+
+    # Logic Handling
 
     def pick(self, ctx):
         response = ''
@@ -50,6 +54,8 @@ class Raffle:
             self.raffle = []
             response = 'The raffle has been closed'
         return response
+
+    # Commands
 
     # Pick winner from raffle list. Mod-only
     @command(name='draw', aliases = ['Draw', 'pick', 'Pick'])

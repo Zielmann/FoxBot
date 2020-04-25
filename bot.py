@@ -1,13 +1,15 @@
 import util
 import logging
 import botActions
+import settings
+import importlib
 from twitchio.ext import commands
 
 # Load settings from settings.xml
-botActions.load_settings()
+settings.load_settings()
 
 # Set up basic logging handler
-if botActions.get_logging().lower() == 'debug':
+if settings.get_logging().lower() == 'debug':
     logLevel = logging.DEBUG
 else:
     logLevel = logging.CRITICAL
@@ -17,11 +19,11 @@ logging.basicConfig(filename='FoxBot_log.txt', level=logLevel, format='%(asctime
 
 # Initialize twitchio command bot
 bot = commands.Bot(
-    irc_token= botActions.get_app_token(),
-    client_id= botActions.get_client_id(),
-    nick= botActions.get_bot_account(),
-    prefix= botActions.get_prefix(),
-    initial_channels=[botActions.get_channel()]
+    irc_token= settings.get_app_token(),
+    client_id= settings.get_client_id(),
+    nick= settings.get_bot_account(),
+    prefix= settings.get_prefix(),
+    initial_channels=[settings.get_channel()]
 )
 
 #---------------------------------------------------#
@@ -30,9 +32,9 @@ bot = commands.Bot(
 @bot.event
 async def event_ready():
     'Called once when the bot goes online.'
-    print(f"{botActions.get_bot_account()} is online!")
+    print(f"{settings.get_bot_account()} is online!")
     ws = bot._ws  # this is only needed to send messages within event_ready
-    await ws.send_privmsg(botActions.get_channel(), f"/me is alive!")
+    await ws.send_privmsg(settings.get_channel(), f"/me is alive!")
 
 # Read incoming messages
 @bot.event
@@ -55,40 +57,40 @@ async def event_message(ctx):
 #----------------------#
 
 # List all general commands
-@bot.command(name='commands', aliases=['help', 'Commands', 'Help'])
-async def list_commands(ctx):
-    message = botActions.commands()
-    await ctx.channel.send(message)
+# @bot.command(name='commands', aliases=['help', 'Commands', 'Help'])
+# async def list_commands(ctx):
+#     message = botActions.commands()
+#     await ctx.channel.send(message)
 
-# Post general info about the bot
-@bot.command(name='bot', aliases=['info', 'Bot', 'Info'])
-async def bot_info(ctx):
-    message = botActions.bot_info()
-    await ctx.channel.send(message)
+# # Post general info about the bot
+# @bot.command(name='bot', aliases=['info', 'Bot', 'Info'])
+# async def bot_info(ctx):
+#     message = botActions.bot_info()
+#     await ctx.channel.send(message)
 
-# Get stream uptime. Responds with stream uptime
-@bot.command(name='uptime', aliases = ['Uptime'])
-async def uptime(ctx):
-    message = botActions.uptime()
-    await ctx.channel.send(message)
+# # Get stream uptime. Responds with stream uptime
+# @bot.command(name='uptime', aliases = ['Uptime'])
+# async def uptime(ctx):
+#     message = botActions.uptime()
+#     await ctx.channel.send(message)
 
-# Send link to stremer's discord
-@bot.command(name='discord', aliases = ['Discord'])
-async def discord(ctx):
-    message = botActions.get_discord()
-    await ctx.channel.send(message)
+# # Send link to stremer's discord
+# @bot.command(name='discord', aliases = ['Discord'])
+# async def discord(ctx):
+#     message = botActions.get_discord()
+#     await ctx.channel.send(message)
 
 # Send link to streamer's twitter
-@bot.command(name='twitter', aliases = ['Twitter'])
-async def twitter(ctx):
-    message = botActions.get_twitter()
-    await ctx.channel.send(message)
+# @bot.command(name='twitter', aliases = ['Twitter'])
+# async def twitter(ctx):
+#     message = botActions.get_twitter()
+#     await ctx.channel.send(message)
 
-# Shout-out user. Mod-only, used to acknowledge raids
-@bot.command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
-async def shoutout(ctx):
-    message = botActions.shoutout(ctx)
-    await ctx.channel.send(message)
+# # Shout-out user. Mod-only, used to acknowledge raids
+# @bot.command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
+# async def shoutout(ctx):
+#     message = botActions.shoutout(ctx)
+#     await ctx.channel.send(message)
 
 #----------------------#
 #----Quote Commands----#
@@ -217,5 +219,6 @@ async def nothing(ctx):
 #----------------------------------------------------#
 
 if __name__ == "__main__":
-    bot.load_module("raffle")
+    bot.load_module('Modules.basics')
+    bot.load_module('Modules.raffle')
     bot.run()   
