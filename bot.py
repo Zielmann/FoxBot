@@ -114,33 +114,6 @@ async def remove_quote(ctx):
     message = botActions.remove_quote(ctx)
     await ctx.channel.send(message)
 
-#---------------------#
-#---Raffle Commands---#
-#---------------------#
-
-# Pick winner from raffle list. Mod-only
-@bot.command(name='draw', aliases = ['Draw', 'pick', 'Pick'])
-async def raffle_pick(ctx):
-    message = botActions.raffle_pick(ctx)
-    await ctx.channel.send(message)
-
-# Enter user into raffle list
-@bot.command(name='raffle', aliases = ['Raffle'])
-async def enter_raffle(ctx):
-    message = botActions.enter_raffle(ctx)
-    await ctx.channel.send(message)
-
-# Start a raffle. Mod-only
-@bot.command(name='startraffle', aliases = ['Startraffle', 'rafflestart', 'Rafflestart'])
-async def start_raffle(ctx):
-    message = botActions.start_raffle(ctx)
-    await ctx.channel.send(message)
-
-# End a raffle. Mod-only
-@bot.command(name='endraffle', aliases = ['Endraffle', 'raffleend', 'Raffleend'])
-async def end_raffle(ctx):
-    message = botActions.end_raffle(ctx)
-    await ctx.channel.send(message)
 
 #---------------------#
 #---Emote Reactions---#
@@ -244,4 +217,5 @@ async def nothing(ctx):
 #----------------------------------------------------#
 
 if __name__ == "__main__":
+    bot.load_module("raffle")
     bot.run()   

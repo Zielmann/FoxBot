@@ -94,53 +94,6 @@ def shoutout(ctx):
         response = 'Shoutout to ' + name + '! Check out their stream at twitch.tv/' + name + ' and give them a follow!'
     return response
 
-#-------------------------------------------#
-# Raffle Functions
-
-def raffle_pick(ctx):
-    response = ''
-    global raffle
-    if raffle[0] and ctx.author.is_mod:
-        if len(raffle) == 1:
-            response = 'There are no entries in the raffle'
-        else:
-            # Picks winner from raffle list, first entry (raffle status) is excluded
-            winner = random.choice(raffle[1:])
-            response = 'Contratulations @' + winner + ', you won the raffle!'
-            raffle.remove(winner)
-    elif not raffle[0] and ctx.author.is_mod:
-        response = 'There is no active raffle'
-    return response
-
-def enter_raffle(ctx):
-    response = ''
-    global raffle
-    # Enters user in raffle if raffle is active
-    if raffle[0]:
-        name = ctx.author.name
-        # Make sure user has not already entered
-        if not name in raffle:
-            raffle.append(name)
-            response = name + ' has entered the raffle!'
-    return response
-
-def start_raffle(ctx):
-    response = ''
-    global raffle
-    # Sets raffle status to True
-    if not raffle[0] and ctx.author.is_mod:
-        raffle[0] = True
-        response = 'A raffle has been started! Use !raffle to enter!'
-    return response
-
-def end_raffle(ctx):
-    response = ''
-    global raffle
-    # If raffle is active, clears all entires and sets raffle status to False
-    if raffle[0] and ctx.author.is_mod:
-        raffle = [False]
-        response = 'The raffle has been closed'
-    return response
 
 #-------------------------------------------#
 # Quote Functions
