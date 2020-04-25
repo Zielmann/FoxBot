@@ -28,21 +28,6 @@ def readSpeciesFromCSV(name):
                     species = entry["species"]
     return species
 
-# Read quotes from file, returns dictionary of quotes
-def readQuotes():
-    quotes = {}
-    if os.path.isfile('quotes.json') and os.path.getsize('quotes.json') != 0:
-        with open('quotes.json', 'r') as json_file:
-            quotes = json.load(json_file)
-    return quotes
-
-# Write quotes to file
-def writeQuotes(quote_dict):
-    with open('quotes.json', 'w') as json_file:
-        json.dump(quote_dict, json_file, indent=4)
-    return
-
-
 # Validates the second parameter starts with @
 def validateName(content):
     valid = False

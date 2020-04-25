@@ -32,6 +32,18 @@ class Basics:
             response = 'Shoutout to ' + name + '! Check out their stream at twitch.tv/' + name + ' and give them a follow!'
         return response
 
+    def get_twitter(self):
+        response = ''
+        if settings.get_twitter():
+            response = settings.get_twitter()
+        return response
+
+    def get_discord(self):
+        response = ''
+        if settings.get_discord():
+            response = settings.get_discord()
+        return response
+
     # Commands
 
     # List all general commands
@@ -55,13 +67,13 @@ class Basics:
     # Send link to stremer's discord
     @command(name='discord', aliases = ['Discord'])
     async def discord(self, ctx):
-        message = settings.get_discord()
+        message = self.get_discord()
         await ctx.channel.send(message)
 
     # Send link to streamer's twitter
     @command(name='twitter', aliases = ['Twitter'])
     async def twitter(self, ctx):
-        message = settings.get_twitter()
+        message = self.get_twitter()
         await ctx.channel.send(message)
 
     # Shout-out user. Mod-only, used to acknowledge raids

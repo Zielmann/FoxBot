@@ -9,14 +9,10 @@ from datetime import datetime
 from twitch import TwitchHelix
 
 settings = {}
-raffle = [False] # First entry in list stores raffle status
-quotes = {}
 
 # settings.xml parser
 def load_settings():
     global settings
-    global quotes
-    quotes = util.readQuotes()
     with open('settings.xml') as f:
         settings = xmltodict.parse(f.read())['settings']
 
@@ -67,108 +63,6 @@ def get_random_tf_id():
 
 def get_direct_tf_id():
     return settings['custom_rewards']['direct_tf']
-
-
-#-------------------------------------------#
-# General Command Functions
-
-def commands():
-    return 'Available Commands: !bot, !discord, !twitter, !avorion, !uptime, !tfcheck, !quote'
-
-def bot_info():
-    return 'FoxBot is written in Python by @zielfoxx and @YorkRacc. !commands for available commands. Ideas/Feedback always welcome!'
-
-def uptime():
-    # Set up twitch API call and get stream info
-    client = TwitchHelix(client_id = get_client_id())
-    stream = client.get_streams(user_logins= get_channel())._queue[0]
-    # Get stream start time (API sends UTC time) and calculate uptime
-    start_time = stream["started_at"]
-    uptime = datetime.utcnow() - start_time
-    return str(uptime).split(".")[0]
-
-def shoutout(ctx):
-    response = ''
-    if ctx.author.is_mod and util.validateName(ctx.content):
-        name = ctx.content.split()[1][1:]
-        response = 'Shoutout to ' + name + '! Check out their stream at twitch.tv/' + name + ' and give them a follow!'
-    return response
-
-
-#-------------------------------------------#
-# Quote Functions
-
-def add_quote(ctx):
-    response = ''
-    if ctx.author.is_mod:
-        # Puts provided quote into a single string, without including the '!addquote' at the start
-        quote = ' '.join(map(str,ctx.content.split()[1:]))
-        if quote:
-            today = datetime.today()
-            date = str(today.day) + '/' + str(today.month) + '/' + str(today.year)
-            # If no stored quotes, sets first entry as quote number 1. Otherwise adds one to the last key in quotes (the last quote number)
-            if len(quotes) == 0:
-                number = 1
-            else:
-                number = str(int(list(quotes.keys())[-1]) + 1)
-            game = util.getGameName(ctx,get_client_id(),get_channel())
-            # Build dictionary to associate date and game with the quote
-            raw_quote = {
-                "date": date,
-                "quote": quote,
-                "game": game
-                }
-            quotes[number] = raw_quote
-            util.writeQuotes(quotes)
-            response = str(number) + ': ' + quotes[number]["quote"] + ' - while playing ' + quotes[number]["game"] + ' on ' + quotes[number]["date"]
-    return response
-
-def remove_quote(ctx):
-    response = ''
-    if ctx.author.is_mod:
-        # If quote number is given, removes quote from list
-        content = ctx.content.split()
-        if len(content) > 1:
-            number = content[1]
-            if number in quotes:
-                removed = quotes.pop(number)
-                util.writeQuotes(quotes)
-                response = 'Deleted ' + number + ': ' + removed["quote"]
-    return response
-
-def edit_quote(ctx):
-    response = ''
-    if ctx.author.is_mod:
-        content = ctx.content.split()
-        if len(content) > 1:
-            number = content[1]
-            # Creates string of updated quote, without !ediquote command or quote number
-            new_quote = ' '.join(map(str,content[2:]))
-            if new_quote and number in quotes:
-                quotes[number]["quote"] = new_quote
-                util.writeQuotes(quotes)
-                response = 'Updated ' + number + ': ' + quotes[number]["quote"]
-    return response
-
-def get_quote(ctx):
-    response = ''
-    # Search string is anything provided after the !quote command
-    search = ' '.join(map(str,ctx.content.split()[1:]))
-    # If search was just a valid quote number, returns that quote
-    if search in quotes:
-        response = search + ': ' + quotes[search]["quote"] + ' - while playing ' + quotes[search]["game"] + ' on ' + quotes[search]["date"]
-    else:
-        results = []
-        # Find all quotes containing provided search term
-        for item in quotes:
-            if search.lower() in quotes[item]["quote"].lower():
-                results.append(item)
-        if results:
-            # Chooses a random quote from the list of results
-            number = random.randrange(len(results))
-            selected = quotes[results[number]]
-            response = results[number] + ': ' + selected["quote"] + ' - while playing ' + selected["game"] + ' on ' + selected["date"]
-    return response
 
 
 

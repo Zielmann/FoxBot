@@ -2,13 +2,13 @@ import xmltodict
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
-settings = {}
 
 def load_settings():
-    global settings
     with open('settings.xml') as f:
         settings = xmltodict.parse(f.read())['settings']
+    return settings
 
+settings = load_settings()
 
 def get_app_token():
     return settings['bot_setup']['app_token']

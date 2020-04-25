@@ -52,71 +52,6 @@ async def event_message(ctx):
     await bot.handle_commands(ctx)
 
 
-#----------------------#
-#---General Commands---#
-#----------------------#
-
-# List all general commands
-# @bot.command(name='commands', aliases=['help', 'Commands', 'Help'])
-# async def list_commands(ctx):
-#     message = botActions.commands()
-#     await ctx.channel.send(message)
-
-# # Post general info about the bot
-# @bot.command(name='bot', aliases=['info', 'Bot', 'Info'])
-# async def bot_info(ctx):
-#     message = botActions.bot_info()
-#     await ctx.channel.send(message)
-
-# # Get stream uptime. Responds with stream uptime
-# @bot.command(name='uptime', aliases = ['Uptime'])
-# async def uptime(ctx):
-#     message = botActions.uptime()
-#     await ctx.channel.send(message)
-
-# # Send link to stremer's discord
-# @bot.command(name='discord', aliases = ['Discord'])
-# async def discord(ctx):
-#     message = botActions.get_discord()
-#     await ctx.channel.send(message)
-
-# Send link to streamer's twitter
-# @bot.command(name='twitter', aliases = ['Twitter'])
-# async def twitter(ctx):
-#     message = botActions.get_twitter()
-#     await ctx.channel.send(message)
-
-# # Shout-out user. Mod-only, used to acknowledge raids
-# @bot.command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
-# async def shoutout(ctx):
-#     message = botActions.shoutout(ctx)
-#     await ctx.channel.send(message)
-
-#----------------------#
-#----Quote Commands----#
-#----------------------#
-
-@bot.command(name='addquote', aliases = ['Addquote', 'quoteadd', 'Quoteadd'])
-async def add_quote(ctx):
-    message = botActions.add_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='quote', aliases = ['Quote'])
-async def get_quote(ctx):
-    message = botActions.get_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='editquote', aliases = ['Editquote', 'quoteedit', 'Quoteedit'])
-async def edit_quote(ctx):
-    message = botActions.edit_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='removequote', aliases = ['Removequote','deletequote','Deletequote','rmquote'])
-async def remove_quote(ctx):
-    message = botActions.remove_quote(ctx)
-    await ctx.channel.send(message)
-
-
 #---------------------#
 #---Emote Reactions---#
 #---------------------#
@@ -221,4 +156,5 @@ async def nothing(ctx):
 if __name__ == "__main__":
     bot.load_module('Modules.basics')
     bot.load_module('Modules.raffle')
+    bot.load_module('Modules.quotes')
     bot.run()   
