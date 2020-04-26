@@ -2,7 +2,7 @@ import util
 import logging
 import botActions
 import settings
-import importlib
+import Modules.tf as tf
 from twitchio.ext import commands
 
 # Load settings from settings.xml
@@ -43,36 +43,14 @@ async def event_message(ctx):
     logging.debug('### NEW MESSAGE ###')
     logging.debug(ctx.content)
     logging.debug(ctx.author)
-    if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == botActions.get_random_tf_id():
-        reply = botActions.redeem_random(ctx)
+    if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
+        reply = tf.redeem_random(ctx)
         await ctx.channel.send(reply)
-    elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == botActions.get_direct_tf_id():
-        reply = botActions.redeem_direct(ctx)
+    elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
+        reply = tf.redeem_direct(ctx)
         await ctx.channel.send(reply)
     await bot.handle_commands(ctx)
 
-
-#-----------------#
-#---TF Commands---#
-#-----------------#
-
-# Moderator only. TF specified user into a random animal
-@bot.command(name='tf', aliases = ['Tf', 'TF'])
-async def spin_roulette(ctx):
-    message = botActions.tf(ctx)
-    await ctx.channel.send(message)
-
-# Allow user to check their TF status
-@bot.command(name='tfcheck', aliases = ['Tfcheck', 'TFcheck', 'TFCheck'])
-async def get_species(ctx):
-    message = botActions.tfcheck(ctx)
-    await ctx.channel.send(message)
-
-# Moderator only. Revert specified user back to a human
-@bot.command(name='revert')    
-async def un_TF(ctx):
-    message = botActions.un_tf(ctx)
-    await ctx.channel.send(message)
 
 #----------------------------#
 #---Game-Specific Commands---#
@@ -143,4 +121,5 @@ if __name__ == "__main__":
     bot.load_module('Modules.raffle')
     bot.load_module('Modules.quotes')
     bot.load_module('Modules.emotes')
+    bot.load_module('Modules.tf')
     bot.run()   
