@@ -2,6 +2,11 @@ import util
 import logging
 import settings
 import Modules.tf as tf
+import Modules.basics
+import Modules.emotes
+import Modules.quotes
+import Modules.raffle
+import Modules.rimworld
 from twitchio.ext import commands
 
 # Load settings from settings.xml

@@ -32,7 +32,7 @@ def add(ctx):
             date = str(today.day) + '/' + str(today.month) + '/' + str(today.year)
             # If no stored quotes, sets first entry as quote number 1. Otherwise adds one to the last key in quotes (the last quote number)
             if len(quotes) == 0:
-                number = 1
+                number = '1'
             else:
                 number = str(int(list(quotes.keys())[-1]) + 1)
             game = util.getGameName(ctx,settings.get_client_id(),settings.get_channel())
@@ -80,7 +80,7 @@ def search(ctx):
     search = ' '.join(map(str,ctx.content.split()[1:]))
     # If search was just a valid quote number, returns that quote
     if search in quotes:
-        response = search + ': ' + quotes[search]["quote"] + ' - while playing ' + quotes[search]["game"] + ' on ' + quotes[search]["date"]
+        response = str(search) + ': ' + quotes[search]["quote"] + ' - while playing ' + quotes[search]["game"] + ' on ' + quotes[search]["date"]
     else:
         results = []
         # Find all quotes containing provided search term
@@ -91,7 +91,7 @@ def search(ctx):
             # Chooses a random quote from the list of results
             number = random.randrange(len(results))
             selected = quotes[results[number]]
-            response = results[number] + ': ' + selected["quote"] + ' - while playing ' + selected["game"] + ' on ' + selected["date"]
+            response = str(results[number]) + ': ' + selected["quote"] + ' - while playing ' + selected["game"] + ' on ' + selected["date"]
     return response
 
 
