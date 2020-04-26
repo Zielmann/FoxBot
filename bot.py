@@ -52,21 +52,6 @@ async def event_message(ctx):
     await bot.handle_commands(ctx)
 
 
-#---------------------#
-#---Emote Reactions---#
-#---------------------#
-
-@bot.command(name='Oof')
-async def oof(ctx):
-    message = botActions.oof()
-    await ctx.channel.send(message)
-
-@bot.command(name='Heart')
-async def heart(ctx):
-    message = botActions.heart()
-    await ctx.channel.send(message)
-
-
 #-----------------#
 #---TF Commands---#
 #-----------------#
@@ -157,4 +142,5 @@ if __name__ == "__main__":
     bot.load_module('Modules.basics')
     bot.load_module('Modules.raffle')
     bot.load_module('Modules.quotes')
+    bot.load_module('Modules.emotes')
     bot.run()   

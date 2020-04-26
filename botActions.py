@@ -65,16 +65,6 @@ def get_direct_tf_id():
     return settings['custom_rewards']['direct_tf']
 
 
-
-#---------------------------------------------#
-# Emote Reaction Functions
-
-def oof():
-    return 'haurbuOof haurbuOof haurbuOof'
-
-def heart():
-    return 'haurbuHeart haurbuHeart haurbuHeart'
-
 #---------------------------------------------#
 # TF Command Functions
 

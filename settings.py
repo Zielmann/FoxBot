@@ -1,7 +1,4 @@
 import xmltodict
-from twitchio.ext.commands.core import cog
-from twitchio.ext.commands.core import command
-
 
 def load_settings():
     with open('settings.xml') as f:
