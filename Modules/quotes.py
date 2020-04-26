@@ -11,14 +11,14 @@ from twitchio.ext.commands.core import command
 def load_quotes():
     quotes = {}
     if os.path.isfile('quotes.json') and os.path.getsize('quotes.json') != 0:
-        with open('quotes.json', 'r') as json_file:
+        with open('Data/quotes.json', 'r') as json_file:
             quotes = json.load(json_file)
     return quotes
 
 quotes = load_quotes()
 
 def save_quotes(quote_dict):
-    with open('quotes.json', 'w') as json_file:
+    with open('Data/quotes.json', 'w') as json_file:
         json.dump(quote_dict, json_file, indent=4)
     return
 

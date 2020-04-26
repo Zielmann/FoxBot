@@ -1,7 +1,7 @@
 import xmltodict
 
 def load_settings():
-    with open('settings.xml') as f:
+    with open('Data/settings.xml') as f:
         settings = xmltodict.parse(f.read())['settings']
     return settings
 
