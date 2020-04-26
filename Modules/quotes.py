@@ -10,7 +10,7 @@ from twitchio.ext.commands.core import command
 
 def load_quotes():
     quotes = {}
-    if os.path.isfile('quotes.json') and os.path.getsize('quotes.json') != 0:
+    if os.path.isfile('Data/quotes.json') and os.path.getsize('Data/quotes.json') != 0:
         with open('Data/quotes.json', 'r') as json_file:
             quotes = json.load(json_file)
     return quotes
