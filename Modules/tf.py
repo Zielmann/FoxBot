@@ -10,12 +10,12 @@ from twitchio.ext.commands.core import command
 def writeSpeciesToCSV(name, species):
     lowerName = name.lower()
     userDict = {}
-    if os.path.isfile('tfList.csv'):
-        with open('tfList.csv', "r") as csv_file:
+    if os.path.isfile('Data/tfList.csv'):
+        with open('Data/tfList.csv', "r") as csv_file:
             reader = csv.reader(csv_file)
             userDict = {rows[0]:rows[1] for rows in reader}
     userDict[lowerName] = species
-    with open('tfList.csv', "w", newline='', encoding='utf-8') as csv_file:
+    with open('Data/tfList.csv', "w", newline='', encoding='utf-8') as csv_file:
         writer = csv.writer(csv_file)
         for item in userDict:
             writer.writerow([item, userDict[item]])
@@ -23,8 +23,8 @@ def writeSpeciesToCSV(name, species):
 # Gets name/species pair from file. Return 'a human' if user not in list
 def readSpeciesFromCSV(name):
     species = 'a human'
-    if os.path.isfile('tflist.csv'):  
-        with open('tfList.csv', "r") as csv_file:
+    if os.path.isfile('Data/tflist.csv'):  
+        with open('Data/tfList.csv', "r") as csv_file:
             tf_list = csv.DictReader(csv_file, fieldnames=['name', 'species'])
             for entry in tf_list:
                 if entry["name"] == name.lower():
@@ -39,7 +39,7 @@ def tf(ctx):
         name = ctx.content.split()[1][1:]
         current_species = new_species = readSpeciesFromCSV(name)
         # Get random species from list
-        with open('species.txt') as f:
+        with open('Data/species.txt') as f:
             all_species = f.read().splitlines()
             while current_species == new_species:
                 new_species = random.choice(all_species)
@@ -81,7 +81,7 @@ def redeem_random(ctx):
     name = ctx.tags['display-name']
     current_species = new_species = readSpeciesFromCSV(name)
     # Get random species from list
-    with open('species.txt') as f:
+    with open('Data/species.txt') as f:
         all_species = f.read().splitlines()
         while current_species == new_species:
             new_species = random.choice(all_species)
