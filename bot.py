@@ -1,12 +1,7 @@
 import util
 import logging
 import settings
-import Modules.tf as tf
-import Modules.basics
-import Modules.emotes
-import Modules.quotes
-import Modules.raffle
-import Modules.rimworld
+import Modules
 from twitchio.ext import commands
 
 # Load settings from settings.xml
@@ -48,10 +43,10 @@ async def event_message(ctx):
     logging.debug(ctx.content)
     logging.debug(ctx.author)
     if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
-        reply = tf.redeem_random(ctx)
+        reply = Modules.tf.redeem_random(ctx)
         await ctx.channel.send(reply)
     elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
-        reply = tf.redeem_direct(ctx)
+        reply = Modules.tf.redeem_direct(ctx)
         await ctx.channel.send(reply)
     await bot.handle_commands(ctx)
 
