@@ -1,6 +1,5 @@
 import util
 import logging
-import botActions
 import settings
 import Modules.tf as tf
 from twitchio.ext import commands
@@ -51,69 +50,6 @@ async def event_message(ctx):
         await ctx.channel.send(reply)
     await bot.handle_commands(ctx)
 
-
-#----------------------------#
-#---Game-Specific Commands---#
-#----------------------------#
-
-# List mods for active game based on info provided in settings.xml
-# Currently only support Rimworld and Factorio
-@bot.command(name='mods', aliases = ['Mods'])
-async def get_mods(ctx):
-    message = botActions.get_mods(ctx)
-    await ctx.channel.send(message)
-
-# Send valid rimworld commands if rimworld is being played
-@bot.command(name='rimworld', aliases = ['Rimworld'])
-async def rimworld_commands(ctx):
-    message = botActions.rimworld_commands(ctx)
-    await ctx.channel.send(message)
-
-# Rimworld item lookup. Responds with all matching items and their cost, 500ch response max.
-@bot.command(name='item', aliases=['items', 'Item', 'Items'])
-async def item_lookup(ctx):
-    message = botActions.item_lookup(ctx, logging)
-    await ctx.channel.send(message)
-
-# Rimworld event lookup. Responds with all matching events and their cost, 500ch response max.
-@bot.command(name='event', aliases=['events', 'Event', 'Events'])
-async def event_lookup(ctx):
-    message = botActions.event_lookup(ctx)
-    await ctx.channel.send(message)
-
-# Lookup detailed info for a specific event. Search term must be an exact match
-@bot.command(name='eventinfo', aliases = ['Eventinfo','EventInfo'])
-async def event_details(ctx):
-    message = botActions.event_details(ctx)
-    await ctx.channel.send(message)
-
-# Lookup detailed info for a specific item. Search term must be an exact match        
-@bot.command(name='iteminfo', aliases = ['Iteminfo','ItemInfo'])        
-async def item_details(ctx):
-    message = botActions.item_details(ctx, logging)
-    await ctx.channel.send(message)
-
-@bot.command(name='avorion', aliases = ['Avorion','ships','Ships'])
-async def link_avorion_profile(ctx):
-    message = botActions.link_avorion_profile()
-    await ctx.channel.send(message)
-
-#--------------------#
-#---Empty Commands---#
-#--------------------#
-# This section is set up to reduce "unrecognized command" output to the console.
-
-# Do nothing in case first word of a message is 'haurbus'
-@bot.command(name='s')
-async def do_nothing(ctx):
-    await ctx.channel.send('')
-
-# Do nothing in response to the TwitchToolkit commands in rimworld
-
-@bot.command(name='bal', aliases=['balance', 'coins', 'buy', 'lookup', 'joinqueue', 'mypawnhealth', 'mypawnbody', 'purchaselist', 'modsettings', 'giftcoins', 'mypawnstory'])
-async def nothing(ctx):
-    await ctx.channel.send('')
-
 #----------------------------------------------------#
 
 if __name__ == "__main__":
@@ -122,4 +58,5 @@ if __name__ == "__main__":
     bot.load_module('Modules.quotes')
     bot.load_module('Modules.emotes')
     bot.load_module('Modules.tf')
+    bot.load_module('Modules.rimworld')
     bot.run()   

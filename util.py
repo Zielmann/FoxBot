@@ -1,6 +1,3 @@
-import csv
-import os
-import json
 from twitch import TwitchHelix
 
 # Validates the second parameter starts with @
