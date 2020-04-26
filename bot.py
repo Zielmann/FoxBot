@@ -1,13 +1,19 @@
 import util
 import logging
-import botActions
+import settings
+import Modules.tf as tf
+import Modules.basics
+import Modules.emotes
+import Modules.quotes
+import Modules.raffle
+import Modules.rimworld
 from twitchio.ext import commands
 
 # Load settings from settings.xml
-botActions.load_settings()
+settings.load_settings()
 
 # Set up basic logging handler
-if botActions.get_logging().lower() == 'debug':
+if settings.get_logging().lower() == 'debug':
     logLevel = logging.DEBUG
 else:
     logLevel = logging.CRITICAL
@@ -17,11 +23,11 @@ logging.basicConfig(filename='FoxBot_log.txt', level=logLevel, format='%(asctime
 
 # Initialize twitchio command bot
 bot = commands.Bot(
-    irc_token= botActions.get_app_token(),
-    client_id= botActions.get_client_id(),
-    nick= botActions.get_bot_account(),
-    prefix= botActions.get_prefix(),
-    initial_channels=[botActions.get_channel()]
+    irc_token= settings.get_app_token(),
+    client_id= settings.get_client_id(),
+    nick= settings.get_bot_account(),
+    prefix= settings.get_prefix(),
+    initial_channels=[settings.get_channel()]
 )
 
 #---------------------------------------------------#
@@ -30,9 +36,9 @@ bot = commands.Bot(
 @bot.event
 async def event_ready():
     'Called once when the bot goes online.'
-    print(f"{botActions.get_bot_account()} is online!")
+    print(f"{settings.get_bot_account()} is online!")
     ws = bot._ws  # this is only needed to send messages within event_ready
-    await ws.send_privmsg(botActions.get_channel(), f"/me is alive!")
+    await ws.send_privmsg(settings.get_channel(), f"/me is alive!")
 
 # Read incoming messages
 @bot.event
@@ -41,207 +47,21 @@ async def event_message(ctx):
     logging.debug('### NEW MESSAGE ###')
     logging.debug(ctx.content)
     logging.debug(ctx.author)
-    if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == botActions.get_random_tf_id():
-        reply = botActions.redeem_random(ctx)
+    if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
+        reply = tf.redeem_random(ctx)
         await ctx.channel.send(reply)
-    elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == botActions.get_direct_tf_id():
-        reply = botActions.redeem_direct(ctx)
+    elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
+        reply = tf.redeem_direct(ctx)
         await ctx.channel.send(reply)
     await bot.handle_commands(ctx)
-
-
-#----------------------#
-#---General Commands---#
-#----------------------#
-
-# List all general commands
-@bot.command(name='commands', aliases=['help', 'Commands', 'Help'])
-async def list_commands(ctx):
-    message = botActions.commands()
-    await ctx.channel.send(message)
-
-# Post general info about the bot
-@bot.command(name='bot', aliases=['info', 'Bot', 'Info'])
-async def bot_info(ctx):
-    message = botActions.bot_info()
-    await ctx.channel.send(message)
-
-# Get stream uptime. Responds with stream uptime
-@bot.command(name='uptime', aliases = ['Uptime'])
-async def uptime(ctx):
-    message = botActions.uptime()
-    await ctx.channel.send(message)
-
-# Send link to stremer's discord
-@bot.command(name='discord', aliases = ['Discord'])
-async def discord(ctx):
-    message = botActions.get_discord()
-    await ctx.channel.send(message)
-
-# Send link to streamer's twitter
-@bot.command(name='twitter', aliases = ['Twitter'])
-async def twitter(ctx):
-    message = botActions.get_twitter()
-    await ctx.channel.send(message)
-
-# Shout-out user. Mod-only, used to acknowledge raids
-@bot.command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
-async def shoutout(ctx):
-    message = botActions.shoutout(ctx)
-    await ctx.channel.send(message)
-
-#----------------------#
-#----Quote Commands----#
-#----------------------#
-
-@bot.command(name='addquote', aliases = ['Addquote', 'quoteadd', 'Quoteadd'])
-async def add_quote(ctx):
-    message = botActions.add_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='quote', aliases = ['Quote'])
-async def get_quote(ctx):
-    message = botActions.get_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='editquote', aliases = ['Editquote', 'quoteedit', 'Quoteedit'])
-async def edit_quote(ctx):
-    message = botActions.edit_quote(ctx)
-    await ctx.channel.send(message)
-
-@bot.command(name='removequote', aliases = ['Removequote','deletequote','Deletequote','rmquote'])
-async def remove_quote(ctx):
-    message = botActions.remove_quote(ctx)
-    await ctx.channel.send(message)
-
-#---------------------#
-#---Raffle Commands---#
-#---------------------#
-
-# Pick winner from raffle list. Mod-only
-@bot.command(name='draw', aliases = ['Draw', 'pick', 'Pick'])
-async def raffle_pick(ctx):
-    message = botActions.raffle_pick(ctx)
-    await ctx.channel.send(message)
-
-# Enter user into raffle list
-@bot.command(name='raffle', aliases = ['Raffle'])
-async def enter_raffle(ctx):
-    message = botActions.enter_raffle(ctx)
-    await ctx.channel.send(message)
-
-# Start a raffle. Mod-only
-@bot.command(name='startraffle', aliases = ['Startraffle', 'rafflestart', 'Rafflestart'])
-async def start_raffle(ctx):
-    message = botActions.start_raffle(ctx)
-    await ctx.channel.send(message)
-
-# End a raffle. Mod-only
-@bot.command(name='endraffle', aliases = ['Endraffle', 'raffleend', 'Raffleend'])
-async def end_raffle(ctx):
-    message = botActions.end_raffle(ctx)
-    await ctx.channel.send(message)
-
-#---------------------#
-#---Emote Reactions---#
-#---------------------#
-
-@bot.command(name='Oof')
-async def oof(ctx):
-    message = botActions.oof()
-    await ctx.channel.send(message)
-
-@bot.command(name='Heart')
-async def heart(ctx):
-    message = botActions.heart()
-    await ctx.channel.send(message)
-
-
-#-----------------#
-#---TF Commands---#
-#-----------------#
-
-# Moderator only. TF specified user into a random animal
-@bot.command(name='tf', aliases = ['Tf', 'TF'])
-async def spin_roulette(ctx):
-    message = botActions.tf(ctx)
-    await ctx.channel.send(message)
-
-# Allow user to check their TF status
-@bot.command(name='tfcheck', aliases = ['Tfcheck', 'TFcheck', 'TFCheck'])
-async def get_species(ctx):
-    message = botActions.tfcheck(ctx)
-    await ctx.channel.send(message)
-
-# Moderator only. Revert specified user back to a human
-@bot.command(name='revert')    
-async def un_TF(ctx):
-    message = botActions.un_tf(ctx)
-    await ctx.channel.send(message)
-
-#----------------------------#
-#---Game-Specific Commands---#
-#----------------------------#
-
-# List mods for active game based on info provided in settings.xml
-# Currently only support Rimworld and Factorio
-@bot.command(name='mods', aliases = ['Mods'])
-async def get_mods(ctx):
-    message = botActions.get_mods(ctx)
-    await ctx.channel.send(message)
-
-# Send valid rimworld commands if rimworld is being played
-@bot.command(name='rimworld', aliases = ['Rimworld'])
-async def rimworld_commands(ctx):
-    message = botActions.rimworld_commands(ctx)
-    await ctx.channel.send(message)
-
-# Rimworld item lookup. Responds with all matching items and their cost, 500ch response max.
-@bot.command(name='item', aliases=['items', 'Item', 'Items'])
-async def item_lookup(ctx):
-    message = botActions.item_lookup(ctx, logging)
-    await ctx.channel.send(message)
-
-# Rimworld event lookup. Responds with all matching events and their cost, 500ch response max.
-@bot.command(name='event', aliases=['events', 'Event', 'Events'])
-async def event_lookup(ctx):
-    message = botActions.event_lookup(ctx)
-    await ctx.channel.send(message)
-
-# Lookup detailed info for a specific event. Search term must be an exact match
-@bot.command(name='eventinfo', aliases = ['Eventinfo','EventInfo'])
-async def event_details(ctx):
-    message = botActions.event_details(ctx)
-    await ctx.channel.send(message)
-
-# Lookup detailed info for a specific item. Search term must be an exact match        
-@bot.command(name='iteminfo', aliases = ['Iteminfo','ItemInfo'])        
-async def item_details(ctx):
-    message = botActions.item_details(ctx, logging)
-    await ctx.channel.send(message)
-
-@bot.command(name='avorion', aliases = ['Avorion','ships','Ships'])
-async def link_avorion_profile(ctx):
-    message = botActions.link_avorion_profile()
-    await ctx.channel.send(message)
-
-#--------------------#
-#---Empty Commands---#
-#--------------------#
-# This section is set up to reduce "unrecognized command" output to the console.
-
-# Do nothing in case first word of a message is 'haurbus'
-@bot.command(name='s')
-async def do_nothing(ctx):
-    await ctx.channel.send('')
-
-# Do nothing in response to the TwitchToolkit commands in rimworld
-
-@bot.command(name='bal', aliases=['balance', 'coins', 'buy', 'lookup', 'joinqueue', 'mypawnhealth', 'mypawnbody', 'purchaselist', 'modsettings', 'giftcoins', 'mypawnstory'])
-async def nothing(ctx):
-    await ctx.channel.send('')
 
 #----------------------------------------------------#
 
 if __name__ == "__main__":
+    bot.load_module('Modules.basics')
+    bot.load_module('Modules.raffle')
+    bot.load_module('Modules.quotes')
+    bot.load_module('Modules.emotes')
+    bot.load_module('Modules.tf')
+    bot.load_module('Modules.rimworld')
     bot.run()   
