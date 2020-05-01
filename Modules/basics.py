@@ -66,9 +66,9 @@ def get_discord():
 
 def get_mods(ctx):
     """
-    Returns a string containing the mods being used for
-    - Rimworld
-    - Factorio
+    Returns a string containing the mods for the current game being played
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):

@@ -22,7 +22,9 @@ quotes = load_quotes()
 
 def save_quotes(quote_dict):
     """
-    Writes the current dict of quotes to "Data/quotes.json"
+    Writes the passed dict of quotes to "Data/quotes.json"
+    Parameters:
+    quote_dict - The current dictionary of quotes
     """
     with open('Data/quotes.json', 'w') as json_file:
         json.dump(quote_dict, json_file, indent=4)
@@ -30,7 +32,9 @@ def save_quotes(quote_dict):
 
 def add(ctx):
     """
-    Adds a quote to the current quotes saves them
+    Adds a quote from the context of the message to the current quotes
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if ctx.author.is_mod:
@@ -58,7 +62,9 @@ def add(ctx):
 
 def remove(ctx):
     """
-    Removes a quote by Id number
+    Removes a quote by the Id number in the context
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if ctx.author.is_mod:
@@ -74,7 +80,9 @@ def remove(ctx):
 
 def edit(ctx):
     """
-    Edits a quote by id number
+    Edits a quote by the Id number in the context
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if ctx.author.is_mod:
@@ -90,6 +98,12 @@ def edit(ctx):
     return response
 
 def search(ctx):
+    """
+    Searches for a quote by the Id number or terms in the context
+    If the search terms match multiple quotes one is randomly chosen
+    Parameters:
+    ctx - The context of the message
+    """
     response = ''
     # Search string is anything provided after the !quote command
     search = ' '.join(map(str,ctx.content.split()[1:]))

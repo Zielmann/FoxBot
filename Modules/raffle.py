@@ -15,6 +15,8 @@ class Raffle:
         """
         Picks a random entry in the raffle
         Returns a string containing the winner and removes them from the raffle.
+        Parameters:
+        ctx - The context of the message
         """
         response = ''
         if self.active and ctx.author.is_mod:
@@ -32,6 +34,11 @@ class Raffle:
     def enter(self, ctx):
         """
         Adds a user to the raffle if they have not already entered
+        Parameters:
+        ctx - The context of the message
+
+        Returns:
+        A string confirming the user is entered
         """
         response = ''
         # Enters user in raffle if raffle is active
@@ -46,6 +53,11 @@ class Raffle:
     def start(self, ctx):
         """
         Activates the raffle for entries
+        Parameters:
+        ctx - The context of the message
+
+        Returns:
+        A string confirming the raffle has started
         """
         response = ''
         # Sets raffle status to True
@@ -57,6 +69,11 @@ class Raffle:
     def end(self, ctx):
         """
         Ends the raffle and clears the entires
+        Parameters:
+        ctx - The context of the message
+
+        Returns:
+        A string confirming the raffle has been closed
         """
         response = ''
         # If raffle is active, clears all entires and sets raffle status to False

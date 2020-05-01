@@ -7,6 +7,8 @@ from twitchio.ext.commands.core import command
 def commands(ctx):
     """
     Returns a string of Rimworld specific commands
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
@@ -17,6 +19,8 @@ def item_search(ctx):
     """
     Searches the users Rimworld installation for items containing that keyword
     Returns a string containing up to 500 characters of items
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     # Check if current game is Rimworld. Only responds while playing Rimworld
@@ -50,6 +54,8 @@ def event_search(ctx):
     """
     Searches the users Rimworld installation for events containing that keyword
     Returns a string containing up to 500 characters of items
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
         # Only respond if current game is Rimworld
@@ -69,7 +75,9 @@ def event_search(ctx):
 
 def event_detail_search(ctx):
     """
-    Returns details about a specific event
+    Returns a string containing details about a specific event
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -83,7 +91,9 @@ def event_detail_search(ctx):
 
 def item_detail_search(ctx):
     """
-    Returns details about a specific item
+    Returns a string containing details about a specific item
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -106,6 +116,8 @@ def item_detail_search(ctx):
 def destroy_the_comma():
     """
     Deletes extraneous comma in StoreItems.json file if it exists
+    Returns:
+    A boolean indicating if the comma was not removed
     """
     comma = True
     fix = False

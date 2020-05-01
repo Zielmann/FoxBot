@@ -30,6 +30,9 @@ tfList = load_tf_list()
 def writeSpeciesToJSON(name, species):
     """
     Stores name/species pair into "Data/tfList.json"
+    Parameters:
+    name - The name of user (without the @) to be tfed
+    species - The speices to tf the user into
     """
     tfList[name.lower()] = species
     with open('Data/tfList.json', 'w') as json_file:
@@ -40,6 +43,9 @@ def writeSpeciesToCSV(name, species):
     """
     DEPRECIATED
     Stores name/species pair into "Data/tfList.csv"
+    Parameters:
+    name - The name of user (without the @) to be tfed
+    species - The speices to tf the user into
     """
     lowerName = name.lower()
     userDict = {}
@@ -55,8 +61,10 @@ def writeSpeciesToCSV(name, species):
 
 def getSpecies(name):
     """
-    Returns the name's current species
+    Returns the user's current species
     The default return value is "a human" is the name is not found
+    Parameters:
+    name - The name of user (without the @) to check
     """
     species = 'a human'
     if name.lower() in tfList:
@@ -69,6 +77,8 @@ def readSpeciesFromCSV(name):
     Reads name/species pairs from "Data/tfList.csv"
     Returns the species for the specified name
     The default return value is "a human" if the name is not found
+    Parameters:
+    name - The name of user (without the @) to check
     """
     species = 'a human'
     if os.path.isfile('Data/tflist.csv'):  
@@ -84,6 +94,8 @@ def tf(ctx):
     """
     TFs the specified user into either a random or specified animal
     A second message argument after the @ of the user will specify the animal to tf into
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     if ctx.author.is_mod and util.validateName(ctx.content):
@@ -111,6 +123,8 @@ def tf(ctx):
 def tfcheck(ctx):
     """
     Returns the species of the user that calls the command
+    Parameters:
+    ctx - The context of the message
     """
     # Get name of user that sent the command
     name = ctx.author.name
@@ -120,6 +134,8 @@ def tfcheck(ctx):
 def un_tf(ctx):
     """
     Reverts the specified user into a human
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     # Mod check
@@ -136,6 +152,8 @@ def un_tf(ctx):
 def redeem_random(ctx):
     """
     Transforms the caller into a random animal
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     name = ctx.tags['display-name']
@@ -152,6 +170,8 @@ def redeem_random(ctx):
 def redeem_direct(ctx):
     """
     Transforms the caller into the specified animal
+    Parameters:
+    ctx - The context of the message
     """
     response = ''
     name = ctx.tags['display-name']
