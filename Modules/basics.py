@@ -16,7 +16,7 @@ def get_github():
     """
     Returns a string containing the repository for FoxBot
     """
-    return 'Link to FoxBot repository: https://github.com/Zielmann/TwitchBot-Public'
+    return 'Link to FoxBot repository: https://github.com/Zielmann/Foxbot'
     
 def get_commands():
     """
