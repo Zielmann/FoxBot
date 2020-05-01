@@ -1,0 +1,3 @@
+twitch-python
+twitchio
+xmltodict
