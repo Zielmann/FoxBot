@@ -85,6 +85,7 @@ def un_tf(ctx):
     if ctx.author.is_mod and util.validateName(ctx.content):
         name = ctx.content.split()[1][1:]
         current_species = readSpeciesFromCSV(name)
+        # TODO #4: We could probably just delete their name from the CSV
         if current_species == 'a human':
             response = name + ' is already a human'
         else:
