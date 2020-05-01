@@ -1,15 +1,19 @@
 from twitch import TwitchHelix
 
-# Validates the second parameter starts with @
 def validateName(content):
+    """
+    Returns True if a message's second word is a username starting with @
+    """
     valid = False
     if validateNumParameters(content, 2):
         if content.split()[1][0] == '@':
             valid = True
     return valid
 
-# Validates the amount of parameters of a ctx context 
 def validateNumParameters(content, num):
+    """
+    Returns True if the content contains the number of parameters indicated by input num
+    """
     splitContent = content.split()
     valid = False
     if len(splitContent) == num:
@@ -18,13 +22,19 @@ def validateNumParameters(content, num):
 
 # Twitch API call to get stream's game ID
 def checkGame(ctx, client_id, channel, game_name):
-    if getGameName(ctx,client_id,channel).lower() == game_name.lower():
+    """
+    Returns True if the game_name is the Twitch streamer's current game
+    """
+    if getGameName(ctx, client_id, channel).lower() == game_name.lower():
         return True
     else:
         return False
 
 # Twitch API calls to get stream's current game by name
-def getGameName(ctx,client_id,channel):
+def getGameName(ctx, client_id, channel):
+    """
+    Returns a string containing the current game being played by the streamer
+    """
     client = TwitchHelix(client_id)
     stream = client.get_streams(user_logins=channel)._queue[0]
     game_id = stream["game_id"]
