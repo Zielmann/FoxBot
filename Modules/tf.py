@@ -6,8 +6,10 @@ import settings
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
-# Stores name/species pair into file
 def writeSpeciesToCSV(name, species):
+    """
+    Stores name/species pair into "Data/tfList.csv"
+    """
     lowerName = name.lower()
     userDict = {}
     if os.path.isfile('Data/tfList.csv'):
@@ -22,6 +24,11 @@ def writeSpeciesToCSV(name, species):
 
 # Gets name/species pair from file. Return 'a human' if user not in list
 def readSpeciesFromCSV(name):
+    """
+    Reads name/species pairs from "Data/tfList.csv"
+    Returns the species for the specified name
+    The default return value is "a human" if the name is not found
+    """
     species = 'a human'
     if os.path.isfile('Data/tflist.csv'):  
         with open('Data/tfList.csv', "r") as csv_file:
@@ -33,6 +40,10 @@ def readSpeciesFromCSV(name):
     return species
 
 def tf(ctx):
+    """
+    TFs the specified user into either a random or specified animal
+    A second message argument after the @ of the user will specify the animal to tf into
+    """
     response = ''
     if ctx.author.is_mod and util.validateName(ctx.content):
         # Get name without @
@@ -57,12 +68,18 @@ def tf(ctx):
     return response
 
 def tfcheck(ctx):
+    """
+    Returns the species of the user that calls the command
+    """
     # Get name of user that sent the command
     name = ctx.author.name
     species = readSpeciesFromCSV(name)
     return name + ' is ' + species + '!'
 
 def un_tf(ctx):
+    """
+    Reverts the specified user into a human
+    """
     response = ''
     # Mod check
     if ctx.author.is_mod and util.validateName(ctx.content):
@@ -77,6 +94,9 @@ def un_tf(ctx):
     return response
 
 def redeem_random(ctx):
+    """
+    Transforms the caller into a random animal
+    """
     response = ''
     name = ctx.tags['display-name']
     current_species = new_species = readSpeciesFromCSV(name)
@@ -90,6 +110,9 @@ def redeem_random(ctx):
     return response
 
 def redeem_direct(ctx):
+    """
+    Transforms the caller into the specified animal
+    """
     response = ''
     name = ctx.tags['display-name']
     species = 'a(n) ' + str(ctx.content)
