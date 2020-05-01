@@ -9,6 +9,9 @@ from twitchio.ext.commands.core import command
 
 
 def load_quotes():
+    """
+    Loads the quotes into the variable quotes from "Data/quotes.json"
+    """
     quotes = {}
     if os.path.isfile('Data/quotes.json') and os.path.getsize('Data/quotes.json') != 0:
         with open('Data/quotes.json', 'r') as json_file:
@@ -18,11 +21,17 @@ def load_quotes():
 quotes = load_quotes()
 
 def save_quotes(quote_dict):
+    """
+    Writes the current dict of quotes to "Data/quotes.json"
+    """
     with open('Data/quotes.json', 'w') as json_file:
         json.dump(quote_dict, json_file, indent=4)
     return
 
 def add(ctx):
+    """
+    Adds a quote to the current quotes saves them
+    """
     response = ''
     if ctx.author.is_mod:
         # Puts provided quote into a single string, without including the '!addquote' at the start
@@ -48,6 +57,9 @@ def add(ctx):
     return response
 
 def remove(ctx):
+    """
+    Removes a quote by Id number
+    """
     response = ''
     if ctx.author.is_mod:
         # If quote number is given, removes quote from list
@@ -61,6 +73,9 @@ def remove(ctx):
     return response
 
 def edit(ctx):
+    """
+    Edits a quote by id number
+    """
     response = ''
     if ctx.author.is_mod:
         content = ctx.content.split()
