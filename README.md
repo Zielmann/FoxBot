@@ -155,3 +155,7 @@ References:
 <https://python-twitch-client.readthedocs.io/en/latest/basic_usage.html>
 
 <https://github.com/TwitchIO/TwitchIO/blob/master/twitchio/ext/commands/bot.py>
+
+## Developers
+
+To install required pip packages, run `pip install -r requirements.txt`
