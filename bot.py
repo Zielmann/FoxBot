@@ -53,6 +53,10 @@ async def event_message(ctx):
 #----------------------------------------------------#
 
 if __name__ == "__main__":
+    print('FoxBot starting...\n')
+    print('If bot welcome message does not appear, the app_token in settings.xml may be incorrect or may have changed. ' + 
+        'Please go back through the setup steps found in the README to make sure the app_token and client_id are up-to-date ' + 
+        'and that FoxBot is properly connected to your Twitch account.\n')
     bot.load_module('Modules.basics')
     bot.load_module('Modules.raffle')
     bot.load_module('Modules.quotes')
