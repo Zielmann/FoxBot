@@ -4,12 +4,10 @@ from twitchio.ext.commands.core import command
 
 @cog()
 class Raffle:
-    def __init__(self):
-        """
-        Default Constructor
-        """
-        self.raffle = []
-        self.active = False
+    
+    # Variables
+    self.raffle = []
+    self.active = False
 
     def pick(self, ctx):
         """
