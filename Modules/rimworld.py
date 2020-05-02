@@ -52,7 +52,7 @@ def item_search(ctx):
 
 def event_search(ctx):
     """
-    Searches the users Rimworld installation for events containing that keyword
+    Searches the users Rimworld installation for events containing the message content
     Returns a string containing up to 500 characters of items
     Parameters:
     ctx - The context of the message

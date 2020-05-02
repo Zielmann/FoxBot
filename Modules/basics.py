@@ -79,7 +79,7 @@ def get_mods(ctx):
 
 def link_avorion():
     """
-    Returns a string containing the link for an avorion steam workshop
+    Returns a string containing the link for an avorion steam workshop page
     """
     response = 'Haurbus makes ships! Check them out here: ' + settings.get_avorion_link()
     return response

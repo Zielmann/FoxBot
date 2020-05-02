@@ -6,8 +6,8 @@ from twitchio.ext.commands.core import command
 class Raffle:
     
     # Variables
-    self.raffle = []
-    self.active = False
+    raffle = []
+    active = False
 
     def pick(self, ctx):
         """

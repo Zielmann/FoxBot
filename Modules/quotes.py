@@ -10,7 +10,7 @@ from twitchio.ext.commands.core import command
 
 def load_quotes():
     """
-    Loads the quotes into the variable quotes from "Data/quotes.json"
+    Loads a dict of quotes by id into the variable quotes from "Data/quotes.json"
     """
     quotes = {}
     if os.path.isfile('Data/quotes.json') and os.path.getsize('Data/quotes.json') != 0:
@@ -24,7 +24,7 @@ def save_quotes(quote_dict):
     """
     Writes the passed dict of quotes to "Data/quotes.json"
     Parameters:
-    quote_dict - The current dictionary of quotes
+    quote_dict - The current dictionary of quotes to write
     """
     with open('Data/quotes.json', 'w') as json_file:
         json.dump(quote_dict, json_file, indent=4)
@@ -32,7 +32,7 @@ def save_quotes(quote_dict):
 
 def add(ctx):
     """
-    Adds a quote from the context of the message to the current quotes
+    Adds a quote from the content of the message to the current quotes
     Parameters:
     ctx - The context of the message
     """
@@ -62,7 +62,7 @@ def add(ctx):
 
 def remove(ctx):
     """
-    Removes a quote by the Id number in the context
+    Removes a quote by the Id number in message content
     Parameters:
     ctx - The context of the message
     """
@@ -80,7 +80,7 @@ def remove(ctx):
 
 def edit(ctx):
     """
-    Edits a quote by the Id number in the context
+    Edits a quote by the Id number in the message content
     Parameters:
     ctx - The context of the message
     """

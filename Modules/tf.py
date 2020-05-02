@@ -122,7 +122,7 @@ def tf(ctx):
 
 def tfcheck(ctx):
     """
-    Returns the species of the user that calls the command
+    Returns the species of the message author that calls the command
     Parameters:
     ctx - The context of the message
     """
@@ -151,7 +151,7 @@ def un_tf(ctx):
 
 def redeem_random(ctx):
     """
-    Transforms the caller into a random animal
+    Transforms the message author into a random animal
     Parameters:
     ctx - The context of the message
     """
@@ -169,7 +169,7 @@ def redeem_random(ctx):
 
 def redeem_direct(ctx):
     """
-    Transforms the caller into the specified animal
+    Transforms the message author into the specified animal
     Parameters:
     ctx - The context of the message
     """
