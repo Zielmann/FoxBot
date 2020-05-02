@@ -17,7 +17,7 @@ def commands(ctx):
 
 def item_search(ctx):
     """
-    Searches the users Rimworld installation for items containing that keyword
+    Searches the users Rimworld installation for items matching the message content
     Returns a string containing up to 500 characters of items
     Parameters:
     ctx - The context of the message
@@ -75,7 +75,7 @@ def event_search(ctx):
 
 def event_detail_search(ctx):
     """
-    Returns a string containing details about a specific event
+    Returns a string containing details about the event specified by the message content
     Parameters:
     ctx - The context of the message
     """
@@ -91,7 +91,7 @@ def event_detail_search(ctx):
 
 def item_detail_search(ctx):
     """
-    Returns a string containing details about a specific item
+    Returns a string containing details about the item specified by the message content
     Parameters:
     ctx - The context of the message
     """

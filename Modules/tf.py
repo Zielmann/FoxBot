@@ -10,7 +10,7 @@ from twitchio.ext.commands.core import command
 
 def load_tf_list():
     """
-    Loads the TF List into the variable tfList from "Data/tfList.json"
+    Loads a dictionary of species by username into the variable tfList from "Data/tfList.json"
     """
     tf = {}
     if os.path.isfile('Data/tfList.json') and os.path.getsize('Data/tfList.json') != 0:
@@ -44,8 +44,8 @@ def writeSpeciesToCSV(name, species):
     DEPRECIATED
     Stores name/species pair into "Data/tfList.csv"
     Parameters:
-    name - The name of user (without the @) to be tfed
-    species - The speices to tf the user into
+    name - A string containing the name of user (without the @) to be tfed
+    species - A string containing the species to tf the user into
     """
     lowerName = name.lower()
     userDict = {}
@@ -64,7 +64,7 @@ def getSpecies(name):
     Returns the user's current species
     The default return value is "a human" is the name is not found
     Parameters:
-    name - The name of user (without the @) to check
+    name - A string containing the name of user (without the @) to check
     """
     species = 'a human'
     if name.lower() in tfList:
@@ -78,7 +78,7 @@ def readSpeciesFromCSV(name):
     Returns the species for the specified name
     The default return value is "a human" if the name is not found
     Parameters:
-    name - The name of user (without the @) to check
+    name - A string containing the name of user (without the @) to check
     """
     species = 'a human'
     if os.path.isfile('Data/tflist.csv'):  
