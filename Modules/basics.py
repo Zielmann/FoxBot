@@ -22,7 +22,7 @@ def get_commands():
     """
     Returns a string of all available twitch chat commands
     """
-    return 'Available Commands: !bot, !discord, !twitter, !avorion, !uptime, !tfcheck, !quote, !mods'
+    return 'Available Commands: !bot, !github, !discord, !twitter, !avorion, !uptime, !tfcheck, !quote, !mods'
 
 def get_uptime():
     """
