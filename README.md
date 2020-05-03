@@ -64,7 +64,7 @@ FoxBot can either be run from the streaming account or from a secondary account.
 
 In the settings.xml file, add the channel name and the bot_account. For example, if you're streaming on FoxBotStream and the bot is running from FoxBotStreamBot, you would fill in the settings.xml like this:
 
-```sh
+```xml
         <bot_account>FoxBotStreamBot</bot_account>
         <channel>FoxBotStream</channel>
 ```
@@ -81,7 +81,7 @@ FoxBot requires an OAuth token to be able to connect to the Twitch IRC interface
 
 4. Copy the full token, including the oauth: prefix, and add it to the settings.xml file
 
-```sh
+```xml
         <app_token>paste full oauth token here</app_token>
 ```
 
@@ -105,7 +105,7 @@ Foxbot needs to be registered as an application with Twitch and granted access t
 
 8. You will see a Client ID field for your application. Copy that ID and add to the settings.xml file
 
-```sh
+```xml
         <client_id>paste application Client ID here</client_id>
 ```
 
@@ -115,7 +115,7 @@ Foxbot needs to be registered as an application with Twitch and granted access t
 
 11. Copy and paste the following into the Scopes field
 
-```sh
+```
 chat:edit chat:read whispers:edit whispers:read
 ```
 
@@ -138,21 +138,21 @@ FoxBot makes use of twitchio's Cog class decorator, which makes it easy to creat
 
 To make a new module, first start by creating a new file in the Modules folder. Be sure to import the Cog and Command decorators from twitchio.
 
-```sh
+```python
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 ```
 
 Next, add a class with the Cog decorator. For example, you could write a feature to greet users in chat.
 
-```sh
+```python
 @cog
 class Greetings:
 ```
 
 Then add commands to be included in the module.
 
-```sh
+```python
 @command(name='hi')
 async def say_hi(self, ctx):
     await ctx.channel.send('Hello!')
@@ -162,13 +162,13 @@ The command name is what you would use to trigger that command. So in this case 
 
 The argument 'ctx' is the context of the message containing the command. This contains things such as the contents of the message, the name of the sender, the name of the channel, and more. So if you wanted to make the bot's response a bit more personalized, you could get the name of the user who sent the command, and insert it into the response string.
 
-```sh
+```python
     await ctx.channel.send('Hello ' + ctx.author.name + '!')
 ```
 
 Putting those together, you would end up with a greetings.py file containing:
 
-```sh
+```python
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
@@ -182,13 +182,13 @@ class Feature:
 
 Now, open up the \_\_init\_\_.py file in the Modules folder and import Greetings.
 
-```sh
+```python
 from .greetings import Greetings
 ```
 
 Now all that's left is to have the bot load the greetings module. This is done near the bottom of bot.py, by calling load_module before the bot is started.
 
-```sh
+```python
     bot.load_module('Modules.greetings')
     bot.run()
 ```
@@ -201,7 +201,7 @@ Having FoxBot react to a specific reward redemption requires a bit of a workarou
 
 After the reward is set up with text input required, you will need to find the ID for the reward. Open <https://www.instafluff.tv/TwitchCustomRewardID/?channel=Yourchannel>, but replace 'Yourchannel' in the URL with the name of your channel. Then in another tab, open up your Twitch channel and redeem the reward. Go back to the tab with the Custom Reward ID Finder and copy the reward ID shown. Add it in settings.xml under <custom_rewards>. You can name it whatever you want.
 
-```sh
+```xml
     <custom_rewards>
         <reward_name>paste reward ID here</reward_name>
     </custom_rewards>
@@ -209,14 +209,14 @@ After the reward is set up with text input required, you will need to find the I
 
 In settings.py, you shoould add a method that will return the custom reward ID.
 
-```sh
+```python
 def get_reward_name_id():
     return settings['custom_rewards']['reward_name']
 ```
 
 Rather than being written as a command, the bot will need to check every incoming message to see if the message context includes your reward's ID. In bot.py, you'll need to add this check to the event_message method, before it checks the message for a valid command.
 
-```sh
+```python
 if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_reward_name_id():
     ...
     <whatever you want the bot to do>
