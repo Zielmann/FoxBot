@@ -104,3 +104,5 @@ a Cassowary
 a Falcon
 an Ocotpus
 a Mongoose
+a Manatee
+an Avali
