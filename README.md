@@ -34,7 +34,7 @@ FoxBot started off as a project to put together a Twitch chat bot for a friend, 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running follow these steps.
 
 ### Prerequisites
 
@@ -132,7 +132,7 @@ Try sending !bot or !commands in chat, and the bot should respond!
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### **Adding a Feature Module**
+### Adding a Feature Module
 
 FoxBot makes use of twitchio's Cog class decorator, which makes it easy to create modules for new features.
 
@@ -195,7 +195,7 @@ Now all that's left is to have the bot load the greetings module. This is done n
 
 Now run the bot again, and try sending '!hi' in the chat!
 
-### **Reacting to Channel Reward Redemptions**
+### Reacting to Channel Reward Redemptions
 
 Having FoxBot react to a specific reward redemption requires a bit of a workaround, at least until Twitch makes all redemption notifications available either through their API or their IRC interface. Because of this, the reward must be configured to require the user to include text with their redemption.
 
