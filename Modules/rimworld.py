@@ -7,8 +7,12 @@ from twitchio.ext.commands.core import command
 def commands(ctx):
     """
     Returns a string of Rimworld specific commands
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: The list of commands
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
@@ -18,9 +22,12 @@ def commands(ctx):
 def item_search(ctx):
     """
     Searches the users Rimworld installation for items matching the message content
-    Returns a string containing up to 500 characters of items
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: Contains up to 500 characters of matching items
     """
     response = ''
     # Check if current game is Rimworld. Only responds while playing Rimworld
@@ -53,9 +60,12 @@ def item_search(ctx):
 def event_search(ctx):
     """
     Searches the users Rimworld installation for events containing the message content
-    Returns a string containing up to 500 characters of items
+    
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: Containins up to 500 characters of matching events
     """
     response = ''
         # Only respond if current game is Rimworld
@@ -76,8 +86,12 @@ def event_search(ctx):
 def event_detail_search(ctx):
     """
     Returns a string containing details about the event specified by the message content
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: Contains details about the specified event
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -92,8 +106,12 @@ def event_detail_search(ctx):
 def item_detail_search(ctx):
     """
     Returns a string containing details about the item specified by the message content
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: Contains details about the specified item
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -116,8 +134,9 @@ def item_detail_search(ctx):
 def destroy_the_comma():
     """
     Deletes extraneous comma in StoreItems.json file if it exists
+
     Returns:
-    A boolean indicating if the comma was not removed
+        boolean: Indicates if the comma was not removed
     """
     comma = True
     fix = False

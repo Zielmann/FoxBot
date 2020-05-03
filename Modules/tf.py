@@ -10,7 +10,10 @@ from twitchio.ext.commands.core import command
 
 def load_tf_list():
     """
-    Loads a dictionary of species by username into the variable tfList from "Data/tfList.json"
+    Loads a dictionary of species by username from "Data/tfList.json"
+
+    Returns:
+        dict: Contains species by username
     """
     tf = {}
     if os.path.isfile('Data/tfList.json') and os.path.getsize('Data/tfList.json') != 0:
@@ -30,9 +33,10 @@ tfList = load_tf_list()
 def writeSpeciesToJSON(name, species):
     """
     Stores name/species pair into "Data/tfList.json"
+
     Parameters:
-    name - The name of user (without the @) to be tfed
-    species - The speices to tf the user into
+        name (str): The name of user (without the @) to be tfed
+        species (str): The species to tf the user into
     """
     tfList[name.lower()] = species
     with open('Data/tfList.json', 'w') as json_file:
@@ -43,9 +47,10 @@ def writeSpeciesToCSV(name, species):
     """
     DEPRECIATED
     Stores name/species pair into "Data/tfList.csv"
+
     Parameters:
-    name - A string containing the name of user (without the @) to be tfed
-    species - A string containing the species to tf the user into
+        name: A string containing the name of user (without the @) to be tfed
+        species: A string containing the species to tf the user into
     """
     lowerName = name.lower()
     userDict = {}
@@ -62,9 +67,13 @@ def writeSpeciesToCSV(name, species):
 def getSpecies(name):
     """
     Returns the user's current species
-    The default return value is "a human" is the name is not found
+    
     Parameters:
-    name - A string containing the name of user (without the @) to check
+        name (str): A string containing the name of user (without the @) to check
+
+    Returns:
+        str: The species of the user, 
+             the default return value is "a human" if the name is not found
     """
     species = 'a human'
     if name.lower() in tfList:
@@ -75,10 +84,13 @@ def readSpeciesFromCSV(name):
     """
     DEPRECIATED
     Reads name/species pairs from "Data/tfList.csv"
-    Returns the species for the specified name
-    The default return value is "a human" if the name is not found
+    
     Parameters:
-    name - A string containing the name of user (without the @) to check
+        name: A string containing the name of user (without the @) to check
+
+    Returns:
+        str: the species for the specified name,
+             the default return value is "a human" if the name is not found
     """
     species = 'a human'
     if os.path.isfile('Data/tflist.csv'):  
@@ -93,9 +105,13 @@ def readSpeciesFromCSV(name):
 def tf(ctx):
     """
     TFs the specified user into either a random or specified animal
-    A second message argument after the @ of the user will specify the animal to tf into
+    
     Parameters:
-    ctx - The context of the message
+        ctx - The context of the message, a second message argument after the 
+              @ of the user will specify the animal to tf into
+
+    Returns:
+        str: A confirmation of the species the user has been tfed into
     """
     response = ''
     if ctx.author.is_mod and util.validateName(ctx.content):
@@ -123,8 +139,12 @@ def tf(ctx):
 def tfcheck(ctx):
     """
     Returns the species of the message author that calls the command
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: The species of the user
     """
     # Get name of user that sent the command
     name = ctx.author.name
@@ -134,8 +154,12 @@ def tfcheck(ctx):
 def un_tf(ctx):
     """
     Reverts the specified user into a human
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: Confirmation of the action
     """
     response = ''
     # Mod check
@@ -152,8 +176,12 @@ def un_tf(ctx):
 def redeem_random(ctx):
     """
     Transforms the message author into a random animal
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: A confirmation of the species the user has been tfed into
     """
     response = ''
     name = ctx.tags['display-name']
@@ -170,8 +198,12 @@ def redeem_random(ctx):
 def redeem_direct(ctx):
     """
     Transforms the message author into the specified animal
+
     Parameters:
-    ctx - The context of the message
+        ctx: The context of the message
+
+    Returns:
+        str: A confirmation of the species the user has been tfed into
     """
     response = ''
     name = ctx.tags['display-name']

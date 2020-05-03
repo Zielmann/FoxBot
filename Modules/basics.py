@@ -9,24 +9,36 @@ from twitchio.ext.commands.core import command
 def get_bot_info():
     """
     Returns a string of information about FoxBot
+
+    Returns:
+        str: Contains the authors and notes about the bot. 
     """
     return 'FoxBot is written in Python by @zielfoxx and @YorkRacc. !commands for available commands. Ideas/Feedback always welcome!'
 
 def get_github():
     """
     Returns a string containing the repository for FoxBot
+
+    Returns:
+        str: Contains the link to the Github repository for FoxBot
     """
     return 'Link to FoxBot repository: https://github.com/Zielmann/Foxbot'
     
 def get_commands():
     """
     Returns a string of all available twitch chat commands
+
+    Returns:
+        str: Contains all of the available commands to call
     """
     return 'Available Commands: !bot, !github, !discord, !twitter, !avorion, !uptime, !tfcheck, !quote, !mods'
 
 def get_uptime():
     """
     Returns a string of the current uptime
+
+    Returns:
+        str: Contains the current amount of uptime for the channel
     """
     # Set up twitch API call and get stream info
     client = TwitchHelix(client_id = settings.get_client_id())
@@ -39,6 +51,9 @@ def get_uptime():
 def get_shoutout(ctx):
     """
     Returns a string with the twitch.tv link for the said user
+
+    Returns:
+        str: Contains the twitch.tv link for the said user.
     """
     response = ''
     if ctx.author.is_mod and util.validateName(ctx.content):
@@ -48,7 +63,10 @@ def get_shoutout(ctx):
 
 def get_twitter():
     """
-    Returns a string containing the twitter link for the streamer
+    Returns a string containing the Twitter link for the streamer
+
+    Returns:
+        str: Contains Twitter link indicated in settings file
     """
     response = ''
     if settings.get_twitter():
@@ -58,6 +76,9 @@ def get_twitter():
 def get_discord():
     """
     Returns a string containing the discord link for the streamer
+
+    Returns:
+        str: Contains Discord link indicated in settings file
     """
     response = ''
     if settings.get_discord():
@@ -67,8 +88,12 @@ def get_discord():
 def get_mods(ctx):
     """
     Returns a string containing the mods for the current game being played
+
     Parameters:
-    ctx - The context of the message
+        ctx - The context of the message
+
+    Returns:
+        str: Contains a list of mods for the game listed by twitch
     """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
@@ -80,6 +105,9 @@ def get_mods(ctx):
 def link_avorion():
     """
     Returns a string containing the link for an avorion steam workshop page
+
+    Returns:
+        str: Contains the steam workshop link indicated by the settings file
     """
     response = 'Haurbus makes ships! Check them out here: ' + settings.get_avorion_link()
     return response
