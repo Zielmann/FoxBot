@@ -15,14 +15,13 @@ else:
 
 logging.basicConfig(filename='FoxBot_log.txt', level=logLevel, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
 # Initialize twitchio command bot
 bot = commands.Bot(
-    irc_token= settings.get_app_token(),
-    client_id= settings.get_client_id(),
-    nick= settings.get_bot_account(),
-    prefix= settings.get_prefix(),
-    initial_channels=[settings.get_channel()]
+    irc_token = settings.get_app_token(),
+    client_id = settings.get_client_id(),
+    nick = settings.get_bot_account(),
+    prefix = settings.get_prefix(),
+    initial_channels = [settings.get_channel()]
 )
 
 #---------------------------------------------------#
@@ -30,7 +29,9 @@ bot = commands.Bot(
 # Bot startup confirmation
 @bot.event
 async def event_ready():
-    'Called once when the bot goes online.'
+    """
+    Called once when the bot goes online.
+    """
     print(f"{settings.get_bot_account()} is online!")
     ws = bot._ws  # this is only needed to send messages within event_ready
     await ws.send_privmsg(settings.get_channel(), f"/me is alive!")
@@ -38,7 +39,9 @@ async def event_ready():
 # Read incoming messages
 @bot.event
 async def event_message(ctx):
-    'Runs every time a message is sent in chat.'
+    """
+    Runs every time a message is sent in chat.
+    """
     logging.debug('### NEW MESSAGE ###')
     logging.debug(ctx.content)
     logging.debug(ctx.author)
@@ -53,6 +56,10 @@ async def event_message(ctx):
 #----------------------------------------------------#
 
 if __name__ == "__main__":
+    print('FoxBot starting...\n')
+    print('If bot welcome message does not appear, the app_token in settings.xml may be incorrect or may have changed. ' + 
+        'Please go back through the setup steps found in the README to make sure the app_token and client_id are up-to-date ' + 
+        'and that FoxBot is properly connected to your Twitch account.\n')
     bot.load_module('Modules.basics')
     bot.load_module('Modules.raffle')
     bot.load_module('Modules.quotes')

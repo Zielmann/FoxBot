@@ -6,16 +6,22 @@ from twitchio.ext.commands.core import command
 class Raffle:
     
     # Variables
-
     raffle = []
     active = False
 
-    # Logic Handling
-
     def pick(self, ctx):
+        """
+        Picks a random entry and removes them from the raffle.
+
+        Parameters:
+            ctx: The context of the message
+
+        Returns 
+            str: Contains the winner of the raffle
+        """
         response = ''
         if self.active and ctx.author.is_mod:
-            if  not self.raffle:
+            if not self.raffle:
                 response = 'There are no entries in the raffle'
             else:
                 # Picks winner from raffle list, first entry (raffle status) is excluded
@@ -27,6 +33,15 @@ class Raffle:
         return response
 
     def enter(self, ctx):
+        """
+        Adds a user to the raffle if they have not already entered
+
+        Parameters:
+            ctx: The context of the message
+
+        Returns:
+            str: Confirms the username of the user that is entered
+        """
         response = ''
         # Enters user in raffle if raffle is active
         if self.active:
@@ -38,6 +53,15 @@ class Raffle:
         return response
 
     def start(self, ctx):
+        """
+        Activates the raffle for entries
+
+        Parameters:
+            ctx: The context of the message
+
+        Returns:
+            str: confirms the raffle has started
+        """
         response = ''
         # Sets raffle status to True
         if not self.active and ctx.author.is_mod:
@@ -46,6 +70,15 @@ class Raffle:
         return response
 
     def end(self, ctx):
+        """
+        Ends the raffle and clears the entires
+
+        Parameters:
+            ctx: The context of the message
+
+        Returns:
+            str: confirms the raffle has been closed
+        """
         response = ''
         # If raffle is active, clears all entires and sets raffle status to False
         if self.active and ctx.author.is_mod:
@@ -53,6 +86,7 @@ class Raffle:
             self.raffle = []
             response = 'The raffle has been closed'
         return response
+
 
     # Commands
 
