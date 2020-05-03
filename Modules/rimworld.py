@@ -5,12 +5,30 @@ from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
 def commands(ctx):
+    """
+    Returns a string of Rimworld specific commands
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: The list of commands
+    """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
         response = 'Rimworld Commands: !item, !event, !iteminfo, !eventinfo, !mods'
     return response
 
 def item_search(ctx):
+    """
+    Searches the users Rimworld installation for items matching the message content
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: Contains up to 500 characters of matching items
+    """
     response = ''
     # Check if current game is Rimworld. Only responds while playing Rimworld
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(), 'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -18,7 +36,7 @@ def item_search(ctx):
         search = ctx.content.split()[1].lower()
         tries = 2
         # Allows for a retry if the items file had to have the extraneous comma removed to fix the json formatting
-        for i in range(tries):
+        for _ in range(tries):
             try:
                 with open(settings.get_rimworld_items()) as f:
                     items_json = json.load(f)
@@ -40,6 +58,15 @@ def item_search(ctx):
     return response
 
 def event_search(ctx):
+    """
+    Searches the users Rimworld installation for events containing the message content
+    
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: Containins up to 500 characters of matching events
+    """
     response = ''
         # Only respond if current game is Rimworld
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(), 'rimworld') and util.validateNumParameters(ctx.content, 2):
@@ -57,6 +84,15 @@ def event_search(ctx):
     return response
 
 def event_detail_search(ctx):
+    """
+    Returns a string containing details about the event specified by the message content
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: Contains details about the specified event
+    """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
         search = ctx.content.split()[1].lower()
@@ -68,6 +104,15 @@ def event_detail_search(ctx):
     return response
 
 def item_detail_search(ctx):
+    """
+    Returns a string containing details about the item specified by the message content
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: Contains details about the specified item
+    """
     response = ''
     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
         search = ctx.content.split()[1].lower()
@@ -86,8 +131,13 @@ def item_detail_search(ctx):
                 response = 'Item ' + search + ' costs ' + str(entry["price"]) + ' coins. Item category: ' + entry["category"]
     return response
 
-# Deletes extraneous comma in StoreItems.json file if it exists
 def destroy_the_comma():
+    """
+    Deletes extraneous comma in StoreItems.json file if it exists
+
+    Returns:
+        boolean: Indicates if the comma was not removed
+    """
     comma = True
     fix = False
     try:

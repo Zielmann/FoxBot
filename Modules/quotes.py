@@ -9,6 +9,12 @@ from twitchio.ext.commands.core import command
 
 
 def load_quotes():
+    """
+    Loads a dict of quotes by id from "Data/quotes.json"
+
+    Returns:
+        dict: Contains quotes by id
+    """
     quotes = {}
     if os.path.isfile('Data/quotes.json') and os.path.getsize('Data/quotes.json') != 0:
         with open('Data/quotes.json', 'r') as json_file:
@@ -18,11 +24,26 @@ def load_quotes():
 quotes = load_quotes()
 
 def save_quotes(quote_dict):
+    """
+    Writes the passed dict of quotes to "Data/quotes.json"
+
+    Parameters:
+        quote_dict: The current dictionary of quotes to write
+    """
     with open('Data/quotes.json', 'w') as json_file:
         json.dump(quote_dict, json_file, indent=4)
     return
 
 def add(ctx):
+    """
+    Adds a quote from the content of the message to the current quotes
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: The quote which has been added 
+    """
     response = ''
     if ctx.author.is_mod:
         # Puts provided quote into a single string, without including the '!addquote' at the start
@@ -48,6 +69,15 @@ def add(ctx):
     return response
 
 def remove(ctx):
+    """
+    Removes a quote by the Id number in message content
+
+    Parameters:
+        ctx: The context of the message
+
+    Returns:
+        str: Confirmation of the deleted quote's id and content
+    """
     response = ''
     if ctx.author.is_mod:
         # If quote number is given, removes quote from list
@@ -61,6 +91,15 @@ def remove(ctx):
     return response
 
 def edit(ctx):
+    """
+    Edits a quote by the Id number in the message content
+
+    Parameters:
+        ctx: The context of the message
+        
+    Returns:
+        str: Confirmation of the edited quote's id and content
+    """
     response = ''
     if ctx.author.is_mod:
         content = ctx.content.split()
@@ -75,6 +114,16 @@ def edit(ctx):
     return response
 
 def search(ctx):
+    """
+    Searches for a quote by the Id number or terms in the context
+    If the search terms match multiple quotes one is randomly chosen
+
+    Parameters:
+        ctx - The context of the message
+
+    Returns:
+        str: A quote which matches the search critera
+    """
     response = ''
     # Search string is anything provided after the !quote command
     search = ' '.join(map(str,ctx.content.split()[1:]))
