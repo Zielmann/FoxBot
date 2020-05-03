@@ -26,6 +26,8 @@ def load_tf_list():
             tf_list = csv.DictReader(csv_file, fieldnames=['name', 'species'])
             for entry in tf_list:
                 tf[entry['name']] = entry['species']
+        with open('Data/tfList.json', 'w') as json_file:
+            json.dump(tf, json_file, indent=4)
     return tf
 
 tfList = load_tf_list()
@@ -168,6 +170,8 @@ def un_tf(ctx):
         if name.lower() in tfList:
             tfList.pop(name.lower())
             response = name + ' has changed back into a human'
+            with open('Data/tfList.json', 'w') as json_file:
+                json.dump(tfList, json_file, indent=4)
         else:
             response = name + ' is already a human'
 
