@@ -1,161 +1,248 @@
-# FoxBot
+<h1 align="center">FoxBot</h1>
+<p align="center">
+    A Twitch chat bot built in Python
+    <br />
+</p>
 
-FoxBot is a Twitch bot built off of twitchio for Twitch chat interaction and TwitchHelix for Twitch API access. This bot supports some common chat commands as well as a custom 'TF' feature, which allows for transforming viewers into various animals, objects... or anything else you want! It is also capable of responding to emotes and channel point reward redemptions.
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
 
-## General Commands
+* [About the Project](#about-the-project)
+  * [Built With](#built-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+  * [Set Up the Bot](#set-up-the-bot)
+  * [Run the Bot](#run-the-bot)
+* [Usage](#usage)
+  * [Adding a Feature Module](#adding-a-feature-module)
+  * [Reacting to Channel Reward Redemptions](#reacting-to-channel-reward-redemptions)
+* [Contributing](#contributing)
+* [License](#license)
+* [Acknowledgements](#acknowledgements)
 
-!bot, !info
-Displays basic info about FoxBot
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-!commands, !help
-Lists general commands that can be used by anybody (no mod/streamer -only commands)
+FoxBot started off as a project to put together a Twitch chat bot for a friend, so much of the initial functionality was built for his specific use in mind. As it has expanded, a few others have shown interest in using the bot or at least seeing how it's put together. So now it's public so others can use it as an example, run it themselves, or even help add more features!
 
-!uptime
-Displays how long stream has been live
+### Built With
 
-!discord
-Displays streamer's Discord
+* [TwitchIO](https://twitchio.readthedocs.io/en/rewrite/)
+* [Python-twitch-client (Twitch Helix)](https://python-twitch-client.readthedocs.io/en/latest/helix.html)
 
-!twitter
-Displays streamer's Twitter
+<!-- GETTING STARTED -->
+## Getting Started
 
-!so @username, !shoutout @username
-Gives a shoutout to specified user, linking their twitch channel
+To get a local copy up and running follow these steps.
 
-!startraffle
-Streamer and moderator only. After starting a raffle, users will be able to enter the raffle
+### Prerequisites
 
-!raffle
-Enters user into raffle list. Raffle list will be empty when the bot starts
+FoxBot was written with Python 3.8. It should be compatible with Python 3.6 or above, but it has not been tested on those earlier releases.
 
-!draw, !pick
-Streamer and moderator only. Selects a random user from the raffle list, and removes them from the list
+### Installation
 
-!endraffle
-Streamer and moderator only. Ending the raffle will remove all entires from the raffle. After raffle is ended, entering the raffle will be disabled
+1. Clone the repo
 
-!addquote {quote}
-Streamer and moderator only. Adds quote to list. List is stored in quotes.json file. Date and game data are both stored along with the quote
+```sh
+git clone https://github.com/Zielmann/FoxBot.git
+```
 
-!quote {quote number} OR {search term}
-If valid quote number is provided, will return the corresponding quote
-If search term is provided, will return a quote containing the search term. If multiple contain the search term, picks a random quote from the list of matches
+2. Install required packages
 
-!editquote {quote number} {new quote}
-Streamer and moderator only. Updates the specified quote with the provided new quote text. Allows for fixing typos, etc.
+```sh
+pip install -r requirements.txt
+```
 
-!removequote {quote number}
-Streamer and moderator only. Removes the specified quote from the list
+### Set Up the Bot
 
-!tfcheck
-Displays current species of user who sent the command
+To get the bot running, first you will need to do a little setup with Twitch and in the bot's settings.xml file.
 
-!mods
-Displays list of mods for current game (currently supports Rimworld and Factorio)
+#### Set Up Bot Account and Channel
 
-!tf {username} {species}(optional)
-Streamer and moderator only. Streamer has the option to specify the species, while mods do not. If no species provided, assigns the user a random species from species.txt file. User and species pair is then recorded in tfList.csv. This can also be set up to occur when a viewer redeems a custom reward with channel points. See Channel Points Integration below.
+FoxBot can either be run from the streaming account or from a secondary account. If a secondary account is preferred, be sure to add it as a moderator for your channel.
 
-!revert {username}
-Moderator only. Reverts specified user back into a human
+In the settings.xml file, add the channel name and the bot_account. For example, if you're streaming on FoxBotStream and the bot is running from FoxBotStreamBot, you would fill in the settings.xml like this:
 
-!avorion, !ships
-Provides link to Avorion Steam Workshop profile
+```xml
+        <bot_account>FoxBotStreamBot</bot_account>
+        <channel>FoxBotStream</channel>
+```
 
-## Rimworld Commands: (only available when streaming rimworld)
+#### Twitch IRC Connection Setup
 
-!rimworld
-Displays all Rimworld commands.
+FoxBot requires an OAuth token to be able to connect to the Twitch IRC interface. You will need to generate an OAuth token and add it under app_token in the settings.xml file.
 
-!item {itemName}, !items {itemName}
-Displays info on a Rimworld item
+1. Log in to the Twitch account you want the bot to run from
 
-!event {eventName}, !events {itemName}
-Displays info on a Rimworld event
+2. Go to <https://twitchapps.com/tmi/> and click on Connect
 
-## Raffle Feature
+3. You will be prompted to authorize the OAuth Token Generator to access your Twitch account. Click on Authorize.
 
-FoxBot contains a simple raffle feature. Raffle is inactive by default. The streamer and moderators can start a raffle, end the current raffle, and have the bot randomly select a winner from the list. The winner will be removed from the list, but currently nothing prevents them from simply re-entering the raffle. Raffle entries are NOT saved, so each time the bot is started it will have an empty raffle list. Ending the raffle will also clear the list of entries.
+4. Copy the full token, including the oauth: prefix, and add it to the settings.xml file
 
-## Quote Feature
+```xml
+        <app_token>paste full oauth token here</app_token>
+```
 
-Stores and recalls quotes. Quotes can be added by the streamer and moderators. When a quote is added, it will also store the data and current game along with the quote.
-The streamer and moderators are also able to delete or modify saved quotes (allows correcting for typos, etc).
-Any viewer can lookup a quote. Lookup can be done by specific quote number or by providing a search term. If there are multiple matches for the search term, the bot
-will randomly select which match to return.
+#### Twitch API Connection Setup
 
-## Emote Responses
+Foxbot needs to be registered as an application with Twitch and granted access to your Twitch account in order to be able to make calls to the Twitch API. During this process, a Client_ID will be generated, and you will be adding that to the settings.xml file.
 
-The bot can respond to emotes as if they are commands. Currently, handling for each emote must be individually implemented in the code.
+1. While still logged in to the same Twitch account as before, go to <https://dev.twitch.tv/console/apps> (If prompted, authorize Twitch Developer to access your account)
 
-## Channel Points Integration
+2. In the developer console, click Applications
 
-Current implementation is a workaround, requiring the viewer to provide a message along with this event. This means the streamer must configure the event to require message input when redeemed. The message is checked for the specific custom-reward-id in the tags matching that of the reward being redeemed. Current supported redemptions are for random TF and direct TF rewards.
+3. Click the Register Your Application button on the right
 
-## Bot Setup
+4. Give the app a name. This can be whatever you want, but cannot include 'twitch' in any form
 
-You will need to update the settings.xml file for the bot to run correctly. The following will walk you through the steps to get the required values for the empty fields. The ones already containing a value can be left alone. Before starting, make sure to have two-factor authentication enabled on the account the bot will be running from.
+5. In the OAuth Redirect URLs field, add <https://twitchapps.com/tokengen/>
 
-### App_token
+6. Under Category, select Chat Bot from the dropdown and then click on Create
 
-This is what allows the bot to connect to Twitch chat. Log in to the account you want the bot to show up as in chat, and then go to <https://twitchapps.com/tmi/> and click Connect. This will bring up a prompt to authorize the Twitch Chat OAuth Token Generator to access your account. Click Authorize, and it will generate an OAuth password for the bot. Copy the password shown, and add it as the app_token in settings.xml
+7. You should now see your application in the list of Developer Applications. Click on Manage on the right
 
-### Client_id
+8. You will see a Client ID field for your application. Copy that ID and add to the settings.xml file
 
-This allows the bot to make calls to the Twitch API. You receive a client_id by registering the bot with twitch. While still logged in to the bot account, go to <https://dev.twitch.tv/console/apps.> This may prompt you to authroize Twitch Developer to access your account. Click Authorize. Next, click Register Your Application on the right. Give the app a name (can be anything, but cannot containt 'twitch' in any way). For the OAuth Redirect URLs field, add <https://twitchapps.com/tokengen/> . In the Category drop-down, select Chat Bot. Now, click on Create and it will return to the Applications list. Now click on Manage for your new application, scroll down, and your client_id will be available. Copy this client_id and add it to the settings.xml
+```xml
+        <client_id>paste application Client ID here</client_id>
+```
 
-Now, navigate to <https://twitchapps.com/tokengen/.> It'll open the Twitch OAuth Token Generator. Paste that same client_id into the Client ID field. For Scopes, enter 'chat:edit chat:read whispers:edit whispers:read'. Then click on the broken icon beneath the redirect URL. This will bring up a prompt to authorize the application to access your account. Click Authorize at the bottom of the page. If you see a page with "Your OAuth Token" on it, this step is complete. You do not need to copy this token or add it to the settings.xml
+9. Go to <https://twitchapps.com/tokengen/> to bring up the Twitch OAuth Token Generator
 
-### Bot_account
+10. Paste the application Client ID into the Client ID field
 
-This is the name of the twitch account the bot runs from. This should be the account you were logged into for generating the App_token and the Client_id
+11. Copy and paste the following into the Scopes field
 
-### Channel
+```
+chat:edit chat:read whispers:edit whispers:read
+```
 
-This tells the bot what channel's chat to join. Enter your streaming channel name.
+12. Click on the broken icon image to generate the token. This should prompt you to authroize the application to access your Twitch account. Click Authorize
 
-### Social Media
+13. Now you should see a page with an OAuth token on it. This means the API connection setup is complete. You do not need to copy this token
 
-Any text you enter for the Twitter and Discord settings will be how the bot responds to the !twitter and !discord commands.
+### Run the Bot
 
-### Rimworld Settings
+You're now ready to start up the bot. When it's successfully running, the terminal will indicate the bot's account is online, and the bot will send a message to the stream chat.
 
-#### Rimworld Mods
+Try sending !bot or !commands in chat, and the bot should respond!
 
-Any text you enter here will be how the bot responds to the !mods command when streaming Rimworld
+<!-- USAGE EXAMPLES -->
+## Usage
 
-#### Event_file
+### Adding a Feature Module
 
-This specifies where the Rimworld Twitch Integration mod stores the list of events. This is usually stored in C:\Users\\<username\>\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\TwitchToolkit\StoreIncidents.json. If you don't see the AppData folder under your username, click on View in file explorer and check the 'Hidden Items' box. You can also find the directory by searching "TwitchToolkit" in file explorer, but this may take a while to give a result. You need to enter the full path to the StoreIncidents.json file in settings.xml.
+FoxBot makes use of twitchio's Cog class decorator, which makes it easy to create modules for new features.
 
-#### Item_file
+To make a new module, first start by creating a new file in the Modules folder. Be sure to import the Cog and Command decorators from twitchio.
 
-Same as Event_file, only add the full path to StoreItems.json. This should be in the same directory as the StoreIncidents.json file.
+```python
+from twitchio.ext.commands.core import cog
+from twitchio.ext.commands.core import command
+```
 
-### Factorio Settings
+Next, add a class with the Cog decorator. For example, you could write a feature to greet users in chat.
 
-#### Factorio Mods
+```python
+@cog
+class Greetings:
+```
 
-Any text you enter here will be how the bot responds to the !mods command when streaming Factorio
+Then add commands to be included in the module.
 
-### Avorion Settings
+```python
+@command(name='hi')
+async def say_hi(self, ctx):
+    await ctx.channel.send('Hello!')
+```
 
-#### Profile_Link
+The command name is what you would use to trigger that command. So in this case sending '!hi' in the chat will make the bot send 'Hello!' back.
 
-Link to Steam Workshop profile for Avorion
+The argument 'ctx' is the context of the message containing the command. This contains things such as the contents of the message, the name of the sender, the name of the channel, and more. So if you wanted to make the bot's response a bit more personalized, you could get the name of the user who sent the command, and insert it into the response string.
 
-### Custom Rewards
+```python
+    await ctx.channel.send('Hello ' + ctx.author.name + '!')
+```
 
-Sets the custom reward IDs to react to when somebody redeems a custom reward with channel points
+Putting those together, you would end up with a greetings.py file containing:
 
-References:
+```python
+from twitchio.ext.commands.core import cog
+from twitchio.ext.commands.core import command
 
-<https://twitchio.readthedocs.io/en/rewrite/twitchio.html#client>
+@cog
+class Feature:
 
-<https://python-twitch-client.readthedocs.io/en/latest/basic_usage.html>
+    @command(name='hi')
+    async def say_hi(self, ctx):
+        await ctx.channel.send('Hello ' + ctx.author.name + '!')
+```
 
-<https://github.com/TwitchIO/TwitchIO/blob/master/twitchio/ext/commands/bot.py>
+Now, open up the \_\_init\_\_.py file in the Modules folder and import Greetings.
 
-## Developers
+```python
+from .greetings import Greetings
+```
 
-To install required pip packages, run `pip install -r requirements.txt`
+Now all that's left is to have the bot load the greetings module. This is done near the bottom of bot.py, by calling load_module before the bot is started.
+
+```python
+    bot.load_module('Modules.greetings')
+    bot.run()
+```
+
+Now run the bot again, and try sending '!hi' in the chat!
+
+### Reacting to Channel Reward Redemptions
+
+Having FoxBot react to a specific reward redemption requires a bit of a workaround, at least until Twitch makes all redemption notifications available either through their API or their IRC interface. Because of this, the reward must be configured to require the user to include text with their redemption.
+
+After the reward is set up with text input required, you will need to find the ID for the reward. Open <https://www.instafluff.tv/TwitchCustomRewardID/?channel=Yourchannel>, but replace 'Yourchannel' in the URL with the name of your channel. Then in another tab, open up your Twitch channel and redeem the reward. Go back to the tab with the Custom Reward ID Finder and copy the reward ID shown. Add it in settings.xml under <custom_rewards>. You can name it whatever you want.
+
+```xml
+    <custom_rewards>
+        <reward_name>paste reward ID here</reward_name>
+    </custom_rewards>
+```
+
+In settings.py, you shoould add a method that will return the custom reward ID.
+
+```python
+def get_reward_name_id():
+    return settings['custom_rewards']['reward_name']
+```
+
+Rather than being written as a command, the bot will need to check every incoming message to see if the message context includes your reward's ID. In bot.py, you'll need to add this check to the event_message method, before it checks the message for a valid command.
+
+```python
+if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_reward_name_id():
+    ...
+    <whatever you want the bot to do>
+    ...
+await bot.handle_commands(ctx)
+```
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+I would love to add more features to this bot. If you've added something, please feel free to contribute it here so others would be able to use it if they like! I only ask that the feature is functional (has been run/tested) prior to submission, and that it doesn't break other existing features.
+**Important: Make sure you remove your app_token and client_id before pushing any changes to settings.xml**
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/NewFeature`)
+3. Commit your Changes (`git commit -m 'Add some NewFeature'`)
+4. Push to the Branch (`git push origin feature/NewFeature`)
+5. Open a Pull Request
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+
+* [TwitchCustomRewardID](https://github.com/instafluff/TwitchCustomRewardID)
+* [README template](https://github.com/othneildrew/Best-README-Template)
