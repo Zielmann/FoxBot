@@ -223,7 +223,8 @@ class Tf:
     @command(name='tf', aliases = ['Tf', 'TF'])
     async def spin_roulette(self, ctx):
         message = tf(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Allow user to check their TF status
     @command(name='tfcheck', aliases = ['Tfcheck', 'TFcheck', 'TFCheck'])
@@ -236,3 +237,4 @@ class Tf:
     async def un_TF(self, ctx):
         message = un_tf(ctx)
         await ctx.channel.send(message)
+

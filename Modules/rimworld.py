@@ -162,33 +162,38 @@ class Rimworld:
     @command(name='rimworld', aliases = ['Rimworld'])
     async def rimworld_commands(self, ctx):
         message = commands(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Rimworld item lookup. Responds with all matching items and their cost, 500ch response max.
     @command(name='item', aliases=['items', 'Item', 'Items'])
     async def item_lookup(self, ctx):
         message = item_search(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Rimworld event lookup. Responds with all matching events and their cost, 500ch response max.
     @command(name='event', aliases=['events', 'Event', 'Events'])
     async def event_lookup(self, ctx):
         message = event_search(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Lookup detailed info for a specific event. Search term must be an exact match
     @command(name='eventinfo', aliases = ['Eventinfo','EventInfo'])
     async def event_details(self, ctx):
         message = event_detail_search(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Lookup detailed info for a specific item. Search term must be an exact match        
     @command(name='iteminfo', aliases = ['Iteminfo','ItemInfo'])        
     async def item_details(self, ctx):
         message = item_detail_search(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Used to prevent nuisance output to the terminal when running alongside the Rimworld TwitchToolkit bot
     @command(name='bal', aliases=['balance', 'coins', 'buy', 'lookup', 'joinqueue', 'mypawnhealth', 'mypawnbody', 'purchaselist', 'modsettings', 'giftcoins', 'mypawnstory'])
     async def nothing(self, ctx):
-        await ctx.channel.send('')
+        pass

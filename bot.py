@@ -47,10 +47,12 @@ async def event_message(ctx):
     logging.debug(ctx.author)
     if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
         reply = Modules.tf.redeem_random(ctx)
-        await ctx.channel.send(reply)
+        if reply:
+            await ctx.channel.send(reply)
     elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
         reply = Modules.tf.redeem_direct(ctx)
-        await ctx.channel.send(reply)
+        if reply:
+            await ctx.channel.send(reply)
     await bot.handle_commands(ctx)
 
 #----------------------------------------------------#

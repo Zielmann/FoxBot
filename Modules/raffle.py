@@ -94,23 +94,27 @@ class Raffle:
     @command(name='draw', aliases = ['Draw', 'pick', 'Pick'])
     async def raffle_pick(self, ctx):
         message = self.pick(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Enter user into raffle list
     @command(name='raffle', aliases = ['Raffle'])
     async def enter_raffle(self, ctx):
         message = self.enter(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Start a raffle. Mod-only
     @command(name='startraffle', aliases = ['Startraffle', 'rafflestart', 'Rafflestart'])
     async def start_raffle(self, ctx):
         message = self.start(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # End a raffle. Mod-only
     @command(name='endraffle', aliases = ['Endraffle', 'raffleend', 'Raffleend'])
     async def end_raffle(self, ctx):
         message = self.end(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
