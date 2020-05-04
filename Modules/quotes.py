@@ -150,20 +150,24 @@ class Quotes:
     @command(name='addquote', aliases = ['Addquote', 'quoteadd', 'Quoteadd'])
     async def add_quote(self, ctx):
         message = add(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     @command(name='quote', aliases = ['Quote'])
     async def get_quote(self, ctx):
         message = search(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     @command(name='editquote', aliases = ['Editquote', 'quoteedit', 'Quoteedit'])
     async def edit_quote(self, ctx):
         message = edit(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     @command(name='removequote', aliases = ['Removequote','deletequote','Deletequote','rmquote'])
     async def remove_quote(self, ctx):
         message = remove(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 

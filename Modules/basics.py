@@ -119,51 +119,60 @@ class Basics:
     @command(name='bot', aliases=['info', 'Bot', 'Info'])
     async def bot_info(self, ctx):
         message = get_bot_info()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Link the github repository
     @command(name='github', aliases=['Github', 'repo', 'Repo'])
     async def github(self, ctx):
         message = get_github()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # List all general commands
     @command(name='commands', aliases=['help', 'Commands', 'Help'])
     async def list_commands(self, ctx):
         message = get_commands()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Get stream uptime. Responds with stream uptime
     @command(name='uptime', aliases = ['Uptime'])
     async def uptime(self, ctx):
         message = get_uptime()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Send link to stremer's discord
     @command(name='discord', aliases = ['Discord'])
     async def discord(self, ctx):
         message = get_discord()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Send link to streamer's twitter
     @command(name='twitter', aliases = ['Twitter'])
     async def twitter(self, ctx):
         message = get_twitter()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Shout-out user. Mod-only, used to acknowledge raids
     @command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
     async def shoutout(self, ctx):
         message = get_shoutout(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     @command(name='mods', aliases = ['Mods'])
     async def get_mods(self, ctx):
         message = get_mods(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     @command(name='avorion', aliases = ['Avorion','ships','Ships'])
     async def link_avorion_profile(self, ctx):
         message = link_avorion()
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
