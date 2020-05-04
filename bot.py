@@ -2,6 +2,7 @@ import util
 import logging
 import settings
 import Modules
+import asyncio
 from twitchio.ext import commands
 
 # Load settings from settings.xml
@@ -26,15 +27,39 @@ bot = commands.Bot(
 
 #---------------------------------------------------#
 
+async def start_periodic_messages(messages):
+    """
+    Sends messages to chat periodically
+
+    Period (in minutes) are defined in settings
+    If multiple messages are specified, they are distributed evenly across the specified period
+
+    Parameters:
+        messags: a list of strings
+    """
+    while True:
+        base_time = 60 * int(settings.get_periodic_timer())
+        interval = int(base_time / len(messages))
+        ws = bot._ws
+        for m in messages:
+            await ws.send_privmsg(settings.get_channel(),m)
+            await asyncio.sleep(interval)
+
 # Bot startup confirmation
 @bot.event
 async def event_ready():
     """
     Called once when the bot goes online.
+
+    Sends a greeting message to the chat and then kicks off periodic messages, if any
+    Periodic messages are defined in settings.xml
     """
     print(f"{settings.get_bot_account()} is online!")
     ws = bot._ws  # this is only needed to send messages within event_ready
     await ws.send_privmsg(settings.get_channel(), f"/me is alive!")
+    messages = settings.get_periodic_messages()
+    if messages:
+        await start_periodic_messages(messages)
 
 # Read incoming messages
 @bot.event

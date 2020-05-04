@@ -1,4 +1,6 @@
 import random
+import asyncio
+import settings
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
@@ -87,6 +89,23 @@ class Raffle:
             response = 'The raffle has been closed'
         return response
 
+    async def raffle_reminder(self, ctx):
+        """
+        Periodically sends reminder that raffle is active
+
+        Period is defined in settings.xml, in minutes
+        Parameters:
+            ctx: the context of the message
+        """
+        base_time = settings.get_raffle_reminder_interval()
+        if base_time:
+            interval = 60 * int(settings.get_raffle_reminder_interval())
+            while self.active:
+                await asyncio.sleep(interval)
+                if self.active: # Makes sure raffle is still active after sleep expires
+                    await ctx.channel.send('A raffle is active! Use !raffle to enter!')
+
+
 
     # Commands
 
@@ -104,12 +123,13 @@ class Raffle:
         if message:
             await ctx.channel.send(message)
 
-    # Start a raffle. Mod-only
+    # Start a raffle and kick off raffle reminders. Mod-only
     @command(name='startraffle', aliases = ['Startraffle', 'rafflestart', 'Rafflestart'])
     async def start_raffle(self, ctx):
         message = self.start(ctx)
         if message:
             await ctx.channel.send(message)
+            await self.raffle_reminder(ctx)
 
     # End a raffle. Mod-only
     @command(name='endraffle', aliases = ['Endraffle', 'raffleend', 'Raffleend'])
