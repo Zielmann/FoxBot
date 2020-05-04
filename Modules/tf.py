@@ -230,11 +230,13 @@ class Tf:
     @command(name='tfcheck', aliases = ['Tfcheck', 'TFcheck', 'TFCheck'])
     async def check_tf(self, ctx):
         message = tfcheck(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
     # Moderator only. Revert specified user back to a human
     @command(name='revert')    
     async def un_TF(self, ctx):
         message = un_tf(ctx)
-        await ctx.channel.send(message)
+        if message:
+            await ctx.channel.send(message)
 
