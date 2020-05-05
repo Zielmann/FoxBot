@@ -3,7 +3,6 @@ import logging
 import settings
 import Modules
 import asyncio
-from datetime import datetime, timedelta
 from twitchio.ext import commands
 
 # Load settings from settings.xml

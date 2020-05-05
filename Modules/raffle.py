@@ -1,7 +1,6 @@
 import random
 import asyncio
 import settings
-from datetime import datetime
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
