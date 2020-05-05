@@ -3,10 +3,12 @@ import logging
 import settings
 import Modules
 import asyncio
+from datetime import datetime, timedelta
 from twitchio.ext import commands
 
 # Load settings from settings.xml
 settings.load_settings()
+chat_flag = False
 
 # Set up basic logging handler
 if settings.get_logging().lower() == 'debug':
@@ -31,19 +33,33 @@ async def start_periodic_messages(messages):
     """
     Sends messages to chat periodically
 
-    Period (in minutes) are defined in settings
+    Period (in minutes) is defined in settings
+    Checks for recent activity in chat before sending messages (prevents filling an inactive chat)
     If multiple messages are specified, they are distributed evenly across the specified period
 
     Parameters:
         messags: a list of strings
     """
     while True:
-        base_time = 60 * int(settings.get_periodic_timer())
-        interval = int(base_time / len(messages))
+        global chat_flag
+        interval = base_time = 60 * int(settings.get_periodic_timer())
         ws = bot._ws
-        for m in messages:
-            await ws.send_privmsg(settings.get_channel(),m)
+        if isinstance(messages, str):
+            if chat_flag:
+                await ws.send_privmsg(settings.get_channel(), messages)
+                chat_flag = False
             await asyncio.sleep(interval)
+        else:
+            if chat_flag:
+                interval = int(base_time / len(messages))
+                for m in messages:
+                    await ws.send_privmsg(settings.get_channel(), m)
+                    await asyncio.sleep(interval)
+                chat_flag = False
+            else:
+                await asyncio.sleep(interval)
+
+
 
 # Bot startup confirmation
 @bot.event
@@ -70,6 +86,10 @@ async def event_message(ctx):
     logging.debug('### NEW MESSAGE ###')
     logging.debug(ctx.content)
     logging.debug(ctx.author)
+    global chat_flag
+    if ctx.author.name != settings.get_bot_account():
+        chat_flag = True
+        Modules.raffle.set_raffle_chat_flag()
     if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
         reply = Modules.tf.redeem_random(ctx)
         if reply:
