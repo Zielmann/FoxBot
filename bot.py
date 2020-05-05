@@ -59,8 +59,6 @@ async def start_periodic_messages(messages):
             else:
                 await asyncio.sleep(interval)
 
-
-
 # Bot startup confirmation
 @bot.event
 async def event_ready():
@@ -87,13 +85,16 @@ async def event_message(ctx):
     logging.debug(ctx.content)
     logging.debug(ctx.author)
     global chat_flag
+    # Sets chat flags to True for periodic messages and raffle reminders
     if ctx.author.name != settings.get_bot_account():
         chat_flag = True
         Modules.raffle.set_raffle_chat_flag()
+    # Checks if message was part of a random tf redemption
     if 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_random_tf_id():
         reply = Modules.tf.redeem_random(ctx)
         if reply:
             await ctx.channel.send(reply)
+    # Checks if message was part of a direct tf redemption
     elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
         reply = Modules.tf.redeem_direct(ctx)
         if reply:

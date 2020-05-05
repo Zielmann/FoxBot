@@ -8,6 +8,10 @@ from twitchio.ext.commands.core import command
 raffle_chat_flag = False
 
 def set_raffle_chat_flag():
+    """
+    Sets raffle_chat_flag to True
+    
+    """
     global raffle_chat_flag
     raffle_chat_flag = True
 
