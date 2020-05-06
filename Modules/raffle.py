@@ -1,6 +1,18 @@
 import random
+import asyncio
+import settings
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
+
+raffle_chat_flag = False
+
+def set_raffle_chat_flag():
+    """
+    Sets raffle_chat_flag to True
+    
+    """
+    global raffle_chat_flag
+    raffle_chat_flag = True
 
 @cog()
 class Raffle:
@@ -87,6 +99,24 @@ class Raffle:
             response = 'The raffle has been closed'
         return response
 
+    async def raffle_reminder(self, ctx):
+        """
+        Periodically sends reminder that raffle is active
+
+        Period is defined in settings.xml, in minutes
+        Checks for recent chat activity before sending (prevents filling an inactive chat)
+        Parameters:
+            ctx: the context of the message
+        """
+        global raffle_chat_flag
+        base_time = settings.get_raffle_reminder_interval()
+        if base_time:
+            interval = 60 * int(settings.get_raffle_reminder_interval())
+            while self.active:
+                await asyncio.sleep(interval)
+                if self.active and raffle_chat_flag: # Makes sure raffle is still active after sleep expires
+                    raffle_chat_flag = False
+                    await ctx.channel.send('A raffle is active! Use !raffle to enter!')
 
     # Commands
 
@@ -104,12 +134,13 @@ class Raffle:
         if message:
             await ctx.channel.send(message)
 
-    # Start a raffle. Mod-only
+    # Start a raffle and kick off raffle reminders. Mod-only
     @command(name='startraffle', aliases = ['Startraffle', 'rafflestart', 'Rafflestart'])
     async def start_raffle(self, ctx):
         message = self.start(ctx)
         if message:
             await ctx.channel.send(message)
+            await self.raffle_reminder(ctx)
 
     # End a raffle. Mod-only
     @command(name='endraffle', aliases = ['Endraffle', 'raffleend', 'Raffleend'])
@@ -117,4 +148,3 @@ class Raffle:
         message = self.end(ctx)
         if message:
             await ctx.channel.send(message)
-

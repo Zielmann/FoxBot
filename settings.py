@@ -52,3 +52,11 @@ def get_random_tf_id():
 def get_direct_tf_id():
     return settings['custom_rewards']['direct_tf']
 
+def get_periodic_messages():
+    return settings['scheduled_messages']['message']
+
+def get_periodic_timer():
+    return settings['scheduled_messages']['message_interval_minutes']
+
+def get_raffle_reminder_interval():
+    return settings['raffle']['reminder_interval_minutes']

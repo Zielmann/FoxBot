@@ -8,6 +8,9 @@
         <command_prefix>haurbu</command_prefix>
         <logging>release</logging>
     </bot_setup>
+    <raffle>
+        <reminder_interval_minutes></reminder_interval_minutes>
+    </raffle>
     <social>
         <twitter></twitter>
         <discord></discord>
@@ -29,4 +32,8 @@
         <random_tf>3735ec1b-b3bf-4775-959a-451c9be5e533</random_tf>
         <direct_tf>ee7b4f5e-2c61-43ba-889d-b3fe5425a323</direct_tf>
     </custom_rewards>
+    <scheduled_messages>
+        <message></message>
+        <message_interval_minutes></message_interval_minutes>
+    </scheduled_messages>
 </settings>
