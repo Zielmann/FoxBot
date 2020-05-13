@@ -51,7 +51,7 @@ git clone https://github.com/Zielmann/FoxBot.git
 2. Install required packages
 
 ```sh
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### Set Up the Bot
