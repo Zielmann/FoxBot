@@ -1,7 +1,7 @@
 import unittest
 import twitchio
 import bot
-import Modules.basics as basics
+import Modules
 
 """
 A set of test cases for the twitchbot, useful for testing offline
@@ -14,13 +14,13 @@ class TestBotMethods(unittest.TestCase):
     
     def commandCalledTest(self):
         mockctx = unittest.mock.MagicMock(twitchio.Message)
-        # Add mock ctx content
-        bot.event_ready(mockctx)
-        # Assert correct method is called based on ctx
+        mockctx.content = unittest.mock.Mock(return_value='@Haurbus')
+        bot.event_message(mockctx)
+        #Modules.basics.get_bot_info()
 
     def correctValueTest(self):
         mockctx = unittest.mock.MagicMock(twitchio.Message)
         # Add mock ctx content (mod here)
-        basics.get_shoutout(mockctx)
+        Modules.basics.get_shoutout(mockctx)
         # Assert right return value
         
