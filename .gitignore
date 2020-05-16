@@ -8,3 +8,4 @@ tfList.csv
 tfList.json
 quotes.json
 bot.spec
+*.pyc
