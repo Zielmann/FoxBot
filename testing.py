@@ -1,6 +1,6 @@
 import unittest
+import unittest.mock as mock
 import twitchio
-import bot
 import Modules
 
 """
@@ -10,25 +10,19 @@ and verifying the functionality of new chat commands.
 This is a good reference for determining which objects to mock:
 https://github.com/TwitchIO/TwitchIO/blob/master/twitchio/dataclasses.py
 """
-class TestBotMethods(unittest.TestCase):
-    
-    # Need to make the test bot utilize a temporary settings file
-    def commandCalledTest(self):
-        """
-        Test that the correct method is called upon the correct chat message
-        """
-        mockctx = unittest.mock.MagicMock(twitchio.Message)
-        mockctx.content = unittest.mock.Mock(return_value='@Haurbus')
-        bot.event_message(mockctx)
-        #Modules.basics.get_bot_info()
-        self.assertEqual(True, True)
 
-    def correctValueTest(self):
+class TestBasicsMethods(unittest.TestCase):
+    # Need to make the test bot utilize a temporary settings file
+
+    def test_correctShoutout(self):
         """
         Test that the correct output is created for the chat message content
         """
-        mockctx = unittest.mock.MagicMock(twitchio.Message)
-        # Add mock ctx content (mod here)
-        Modules.basics.get_shoutout(mockctx)
-        # Assert right return value
-        
+        correctResponse = 'Shoutout to testuser! Check out their stream at twitch.tv/testuser and give them a follow!'
+
+        mockctx = mock.MagicMock(twitchio.Message)
+        mockctx.author.is_mod = True
+        mockctx.content = '!shoutout @testuser'
+
+        response = Modules.basics.get_shoutout(mockctx)
+        self.assertEqual(response, correctResponse)
