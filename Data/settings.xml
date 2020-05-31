@@ -1,39 +1,51 @@
 <settings>
     <bot_setup>
-        <app_token></app_token>
-        <client_id></client_id>
-        <bot_account></bot_account>
-        <channel></channel>
-        <command_prefix>!</command_prefix>
-        <command_prefix>haurbu</command_prefix>
+        <app_token></app_token><!--See detailed setup instructions-->
+        <client_id></client_id><!--See detailed setup instructions-->
+        <bot_account></bot_account><!--Account the bot will be running on-->
+        <channel></channel><!--Stream channel name-->
+        <command_prefix>!</command_prefix><!--Required-->
+        <command_prefix>haurbu</command_prefix><!--Emote prefix from Twitch, used for emote responses-->
         <logging>release</logging>
+        <scheduled_messages>
+            <message></message><!--Sets message to be sent periodically in chat-->
+            <!--Copy/paste the previous line to set additional messages, as many as desired-->
+            <message_interval_minutes></message_interval_minutes><!--If multiple messages are set, they will be distributed evenly over this time-->
+        </scheduled_messages>
+        <custom_rewards><!--IDs for each reward redemption the bot will respond to-->
+            <random_tf>3735ec1b-b3bf-4775-959a-451c9be5e533</random_tf>
+            <direct_tf>ee7b4f5e-2c61-43ba-889d-b3fe5425a323</direct_tf>
+        </custom_rewards>
     </bot_setup>
-    <raffle>
-        <reminder_interval_minutes></reminder_interval_minutes>
-    </raffle>
-    <social>
-        <twitter></twitter>
-        <discord></discord>
-    </social>
-    <games>
+    <modules>
+        <basics>
+            <enable>True</enable><!--Valid values: True/False-->
+            <twitter></twitter><!--Response to !twitter command, may include additional text with URL-->
+            <discord></discord><!--Response to !discord command, may include additional text with URL-->
+        </basics>
+        <emotes>
+            <enable>True</enable><!--Valid values: True/False-->
+            <haurbuOof>haurbuOof haurbuOof haurbuOof</haurbuOof><!--Response to Oof emote-->
+            <haurbuHeart>haurbuHeart haurbuHeart haurbuHeart</haurbuHeart><!--Response to Heart emote-->
+        </emotes>
+        <raffle>
+            <enable>True</enable><!--Valid values: True/False-->
+            <reminder_interval_minutes>5</reminder_interval_minutes><!--If provided, will send periodic reminders that a raffle is active-->
+        </raffle>
+        <quotes>
+            <enable>True</enable><!--Valid values: True/False-->
+        </quotes>
+        <tf>
+            <enable>True</enable><!--Valid values: True/False-->
+        </tf>
         <rimworld>
+            <enable>True</enable><!--Valid values: True/False-->
+            <toolkit_path></toolkit_path><!--Path to folder containing StoreIncidents.json and StoreItems.json files, should end in \TwitchToolkit\-->
             <mods></mods>
-            <event_file></event_file>
-            <item_file></item_file>
         </rimworld>
-        <factorio>
-            <mods></mods>
-        </factorio>
         <avorion>
+            <enable>True</enable><!--Valid values: True/False-->
             <profile_link></profile_link>
         </avorion>
-    </games>
-    <custom_rewards>
-        <random_tf>3735ec1b-b3bf-4775-959a-451c9be5e533</random_tf>
-        <direct_tf>ee7b4f5e-2c61-43ba-889d-b3fe5425a323</direct_tf>
-    </custom_rewards>
-    <scheduled_messages>
-        <message></message>
-        <message_interval_minutes></message_interval_minutes>
-    </scheduled_messages>
+    </modules>
 </settings>

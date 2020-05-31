@@ -31,7 +31,7 @@ def get_commands():
     Returns:
         str: Contains all of the available commands to call
     """
-    return 'Available Commands: !bot, !github, !discord, !twitter, !avorion, !uptime, !tfcheck, !quote, !mods'
+    return 'Available Commands: !bot, !github, !discord, !twitter, !avorion, !tfcheck, !quote'
 
 def get_uptime():
     """
@@ -85,22 +85,22 @@ def get_discord():
         response = settings.get_discord()
     return response
 
-def get_mods(ctx):
-    """
-    Returns a string containing the mods for the current game being played
+# def get_mods(ctx): NOT CURRENTLY SUPPORTED - API calls not working
+#     """
+#     Returns a string containing the mods for the current game being played
 
-    Parameters:
-        ctx - The context of the message
+#     Parameters:
+#         ctx - The context of the message
 
-    Returns:
-        str: Contains a list of mods for the game listed by twitch
-    """
-    response = ''
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
-        response = settings.get_rimworld_mods()
-    elif util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'factorio'):
-        response = settings.get_factorio_mods()
-    return response
+#     Returns:
+#         str: Contains a list of mods for the game listed by twitch
+#     """
+#     response = ''
+#     if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
+#         response = settings.get_rimworld_mods()
+#     elif util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'factorio'):
+#         response = settings.get_factorio_mods()
+#     return response
 
 def link_avorion():
     """
@@ -109,7 +109,9 @@ def link_avorion():
     Returns:
         str: Contains the steam workshop link indicated by the settings file
     """
-    response = 'Haurbus makes ships! Check them out here: ' + settings.get_avorion_link()
+    response = ''
+    if settings.avorion_enabled():
+        response = settings.get_avorion_link()
     return response
 
 @cog()
@@ -164,11 +166,11 @@ class Basics:
         if message:
             await ctx.channel.send(message)
 
-    @command(name='mods', aliases = ['Mods'])
-    async def get_mods(self, ctx):
-        message = get_mods(ctx)
-        if message:
-            await ctx.channel.send(message)
+    # @command(name='mods', aliases = ['Mods'])
+    # async def get_mods(self, ctx):
+    #     message = get_mods(ctx)
+    #     if message:
+    #         await ctx.channel.send(message)
 
     @command(name='avorion', aliases = ['Avorion','ships','Ships'])
     async def link_avorion_profile(self, ctx):

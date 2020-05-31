@@ -20,7 +20,7 @@ def validateNumParameters(content, num):
         valid = True
     return valid    
 
-# Twitch API call to get stream's game ID
+# Twitch API call to get stream's game ID. Currently broken.
 def checkGame(ctx, client_id, channel, game_name):
     """
     Returns True if the game_name is the Twitch streamer's current game
@@ -30,7 +30,7 @@ def checkGame(ctx, client_id, channel, game_name):
     else:
         return False
 
-# Twitch API calls to get stream's current game by name
+# Twitch API calls to get stream's current game by name. Currently broken.
 def getGameName(ctx, client_id, channel):
     """
     Returns a string containing the current game being played by the streamer
