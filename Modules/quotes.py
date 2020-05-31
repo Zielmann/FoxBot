@@ -47,8 +47,8 @@ def add(ctx):
     response = ''
     if ctx.author.is_mod:
         # Puts provided quote into a single string, without including the '!addquote' at the start
-        quote = ' '.join(map(str,ctx.content.split()[1:]))
-        if quote:
+        msg = ' '.join(map(str,ctx.content.split()[1:]))
+        if msg:
             today = datetime.today()
             date = str(today.day) + '/' + str(today.month) + '/' + str(today.year)
             # If no stored quotes, sets first entry as quote number 1. Otherwise adds one to the last key in quotes (the last quote number)
@@ -56,7 +56,13 @@ def add(ctx):
                 number = '1'
             else:
                 number = str(int(list(quotes.keys())[-1]) + 1)
-            game = util.getGameName(ctx,settings.get_client_id(),settings.get_channel())
+            #game = util.getGameName(ctx,settings.get_client_id(),settings.get_channel())
+            if 'game:' in msg:
+                quote = msg.split('game:')[0].strip()
+                game = msg.split('game:')[1].strip()
+            else:
+                quote = msg
+                game = ''
             # Build dictionary to associate date and game with the quote
             raw_quote = {
                 "date": date,
@@ -107,10 +113,22 @@ def edit(ctx):
             number = content[1]
             # Creates string of updated quote, without !ediquote command or quote number
             new_quote = ' '.join(map(str,content[2:]))
-            if new_quote and number in quotes:
-                quotes[number]["quote"] = new_quote
+            if new_quote.startswith('game:') and number in quotes:
+                new_game = new_quote.split('game:')[1].strip()
+                quotes[number]["game"] = new_game
                 save_quotes(quotes)
-                response = 'Updated ' + number + ': ' + quotes[number]["quote"]
+                response = 'Updated ' + number + ' game to: ' + quotes[number]["game"]
+            elif new_quote and number in quotes:
+                if 'game:' in new_quote:
+                    new_game = new_quote.split('game:')[1].strip()
+                    new_quote = new_quote.split('game:')[0].strip()
+                    quotes[number]["quote"] = new_quote
+                    quotes[number]["game"] = new_game
+                    response = 'Updated ' + number + ': ' + quotes[number]["quote"] + ' - while playing ' + quotes[number]["game"]
+                else:
+                    quotes[number]["quote"] = new_quote
+                    response = 'Updated ' + number + ': ' + quotes[number]["quote"]
+                save_quotes(quotes)
     return response
 
 def search(ctx):

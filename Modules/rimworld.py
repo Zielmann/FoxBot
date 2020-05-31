@@ -4,6 +4,34 @@ import json
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
+def event_file():
+    """
+    Create filepath including file name for Twitch Toolkit Events file
+
+    Returns:
+        str: complete path to StoreIncidents.json
+    """
+    path = settings.get_toolkit_path()
+    if path[-1] == '\\': 
+        path = path + 'StoreIncidents.json'
+    else:
+        path = path + '\\StoreIncidents.json'
+    return path
+
+def item_file():
+    """
+    Create filepath including file name for Twitch Toolkit Items file
+
+    Returns:
+        str: complete path to StoreItems.json
+    """
+    path = settings.get_toolkit_path()
+    if path[-1] == '\\': 
+        path = path + 'StoreItems.json'
+    else:
+        path = path + '\\StoreItems.json'
+    return path
+
 def commands(ctx):
     """
     Returns a string of Rimworld specific commands
@@ -15,8 +43,18 @@ def commands(ctx):
         str: The list of commands
     """
     response = ''
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld'):
-        response = 'Rimworld Commands: !item, !event, !iteminfo, !eventinfo, !mods'
+    response = 'Rimworld Commands: !item, !event, !iteminfo, !eventinfo, !mods'
+    return response
+
+def mod_list():
+    """
+    Creates response containing rimworld mods
+
+    Returns:
+        str: Mod list, as entered in settings.xml
+    """
+    response = ''
+    response = settings.get_rimworld_mods()
     return response
 
 def item_search(ctx):
@@ -30,15 +68,14 @@ def item_search(ctx):
         str: Contains up to 500 characters of matching items
     """
     response = ''
-    # Check if current game is Rimworld. Only responds while playing Rimworld
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(), 'rimworld') and util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2):
         # Get item to search from message
         search = ctx.content.split()[1].lower()
         tries = 2
         # Allows for a retry if the items file had to have the extraneous comma removed to fix the json formatting
         for _ in range(tries):
             try:
-                with open(settings.get_rimworld_items()) as f:
+                with open(item_file()) as f:
                     items_json = json.load(f)
                 break
             except Exception as e:
@@ -68,10 +105,9 @@ def event_search(ctx):
         str: Containins up to 500 characters of matching events
     """
     response = ''
-        # Only respond if current game is Rimworld
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(), 'rimworld') and util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2):
         search = ctx.content.split()[1].lower()
-        with open(settings.get_rimworld_events()) as e:
+        with open(event_file()) as e:
             events = json.load(e)
 
         # Follows same logic as item search
@@ -94,9 +130,9 @@ def event_detail_search(ctx):
         str: Contains details about the specified event
     """
     response = ''
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2):
         search = ctx.content.split()[1].lower()
-        with open(settings.get_rimworld_events()) as e:
+        with open(event_file()) as e:
             events = json.load(e)
         for entry in events["incitems"]:
             if entry["abr"] == search:
@@ -114,12 +150,12 @@ def item_detail_search(ctx):
         str: Contains details about the specified item
     """
     response = ''
-    if util.checkGame(ctx, settings.get_client_id(), settings.get_channel(),'rimworld') and util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2):
         search = ctx.content.split()[1].lower()
         tries = 2
         for i in range(tries):
             try:
-                with open(settings.get_rimworld_items()) as i:
+                with open(item_file()) as i:
                     items = json.load(i)
                 break
             except Exception as e:
@@ -141,7 +177,7 @@ def destroy_the_comma():
     comma = True
     fix = False
     try:
-        with open(settings.get_rimworld_items(), 'r') as f:
+        with open(item_file(), 'r') as f:
             raw_data = f.read().splitlines()
         # StoreItems.json file sometimes gets corrupted by an extra comma after the } four lines from the end of the file
         # Check to make sure the comma is the issue. If so, remove the comma
@@ -149,7 +185,7 @@ def destroy_the_comma():
             raw_data[-4] = '\t}'
             fix = True
         if fix:
-            with open(settings.get_rimworld_items(),'w') as f:
+            with open(item_file(),'w') as f:
                 f.writelines(line + '\n' for line in raw_data)
             comma = False
     except Exception as e:
@@ -162,6 +198,13 @@ class Rimworld:
     @command(name='rimworld', aliases = ['Rimworld'])
     async def rimworld_commands(self, ctx):
         message = commands(ctx)
+        if message:
+            await ctx.channel.send(message)
+
+    # Send list of rimworld mods
+    @command(name='mods', aliases = ['Mods'])
+    async def mods(self, ctx):
+        message = mod_list()
         if message:
             await ctx.channel.send(message)
 

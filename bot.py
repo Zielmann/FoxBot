@@ -107,10 +107,16 @@ if __name__ == "__main__":
     print('If bot welcome message does not appear, the app_token in settings.xml may be incorrect or may have changed. ' + 
         'Please go back through the setup steps found in the README to make sure the app_token and client_id are up-to-date ' + 
         'and that FoxBot is properly connected to your Twitch account.\n')
-    bot.load_module('Modules.basics')
-    bot.load_module('Modules.raffle')
-    bot.load_module('Modules.quotes')
-    bot.load_module('Modules.emotes')
-    bot.load_module('Modules.tf')
-    bot.load_module('Modules.rimworld')
+    if settings.basics_enabled():
+        bot.load_module('Modules.basics')
+    if settings.raffle_enabled():
+        bot.load_module('Modules.raffle')
+    if settings.quotes_enabled():
+        bot.load_module('Modules.quotes')
+    if settings.emotes_enabled():
+        bot.load_module('Modules.emotes')
+    if settings.tf_enabled():
+        bot.load_module('Modules.tf')
+    if settings.rimworld_enabled():
+        bot.load_module('Modules.rimworld')
     bot.run()   

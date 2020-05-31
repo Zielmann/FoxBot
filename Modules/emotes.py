@@ -1,3 +1,4 @@
+import settings
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
@@ -16,10 +17,26 @@ To create a new emote follow these steps:
 
 # Available Emotes
 def oof():
-    return 'haurbuOof haurbuOof haurbuOof'
+    """
+    Creates response to oof emote based on entry in settings.xml
+
+    Returns:
+        str: response as provided in settings.xml
+    """
+    response = ''
+    response = settings.get_oof()
+    return response
 
 def heart():
-    return 'haurbuHeart haurbuHeart haurbuHeart'
+    """
+    Creates response to heart emote based on entry in settings.xml
+
+    Returns:
+        str: response as provided in settings.xml
+    """
+    response = ''
+    response = settings.get_heart()
+    return response
 
 @cog()
 class Emotes:
