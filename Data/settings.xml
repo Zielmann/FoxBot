@@ -47,5 +47,8 @@
             <enable>True</enable><!--Valid values: True/False-->
             <profile_link></profile_link>
         </avorion>
+        <counter>
+            <enable>True</enable><!--Valid values: True/False-->
+        </counter>
     </modules>
 </settings>

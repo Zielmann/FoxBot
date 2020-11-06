@@ -55,7 +55,7 @@ def set_periodic_timer(time):
 def basics_enabled():
     enable = False
     value = settings['modules']['basics']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
@@ -68,7 +68,7 @@ def get_discord():
 def emotes_enabled():
     enable = False
     value = settings['modules']['emotes']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
@@ -81,7 +81,7 @@ def get_heart():
 def raffle_enabled():
     enable = False
     value = settings['modules']['raffle']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
@@ -91,21 +91,21 @@ def get_raffle_reminder_interval():
 def quotes_enabled():
     enable = False
     value = settings['modules']['quotes']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
 def tf_enabled():
     enable = False
     value = settings['modules']['tf']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
 def rimworld_enabled():
     enable = False
     value = settings['modules']['rimworld']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
@@ -118,11 +118,16 @@ def get_rimworld_mods():
 def avorion_enabled():
     enable = False
     value = settings['modules']['avorion']['enable']
-    if value == 'True' or value == 'true':
+    if value.lower() == 'true':
         enable = True
     return enable
 
 def get_avorion_link():
     return settings['modules']['avorion']['profile_link']
 
-
+def counter_enabled():
+    enable = False
+    value = settings['modules']['counter']['enable']
+    if value.lower() == 'true':
+        enable = True
+    return enable
