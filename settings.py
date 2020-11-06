@@ -34,8 +34,23 @@ def get_direct_tf_id():
 def get_periodic_messages():
     return settings['bot_setup']['scheduled_messages']['message']
 
+def add_periodic_message(msg):
+    if not get_periodic_messages():
+        settings['bot_setup']['scheduled_messages'].update({'message': msg})
+    elif isinstance(get_periodic_messages(), str):
+        m = get_periodic_messages()
+        settings['bot_setup']['scheduled_messages'].update({'message': [m , msg]})
+    else:
+        settings['bot_setup']['scheduled_messages']['message'].append(msg)
+
 def get_periodic_timer():
+    if not settings['bot_setup']['scheduled_messages']['message_interval_minutes']:
+        settings['bot_setup']['scheduled_messages'].update({'message_interval_minutes' : 15})
     return settings['bot_setup']['scheduled_messages']['message_interval_minutes']
+
+
+def set_periodic_timer(time):
+    settings['bot_setup']['scheduled_messages']['message_interval_minutes'] = time
 
 def basics_enabled():
     enable = False
