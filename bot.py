@@ -170,4 +170,6 @@ if __name__ == "__main__":
         bot.load_module('Modules.tf')
     if settings.rimworld_enabled():
         bot.load_module('Modules.rimworld')
+    if settings.counter_enabled():
+        bot.load_module('Modules.counter')
     bot.run()   
