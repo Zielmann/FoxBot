@@ -56,7 +56,7 @@ def get_shoutout(ctx):
         str: Contains the twitch.tv link for the said user.
     """
     response = ''
-    if ctx.author.is_mod and util.validateName(ctx.content):
+    if util.validateName(ctx.content):
         name = ctx.content.split()[1][1:]
         response = 'Shoutout to ' + name + '! Check out their stream at twitch.tv/' + name + ' and give them a follow!'
     return response
@@ -162,7 +162,8 @@ class Basics:
     # Shout-out user. Mod-only, used to acknowledge raids
     @command(name='so', aliases = ['SO', 'So', 'Shoutout', 'shoutout'])
     async def shoutout(self, ctx):
-        message = get_shoutout(ctx)
+        if ctx.author.is_mod or util.is_vip(ctx.author.badges):
+            message = get_shoutout(ctx)
         if message:
             await ctx.channel.send(message)
 

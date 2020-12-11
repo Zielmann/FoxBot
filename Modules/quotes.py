@@ -45,7 +45,7 @@ def add(ctx):
         str: The quote which has been added 
     """
     response = ''
-    if ctx.author.is_mod:
+    if ctx.author.is_mod or (settings.vip_quotes_allowed() and util.is_vip(ctx.author.badges)):
         # Puts provided quote into a single string, without including the '!addquote' at the start
         msg = ' '.join(map(str,ctx.content.split()[1:]))
         if msg:

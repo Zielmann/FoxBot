@@ -34,6 +34,7 @@
         </raffle>
         <quotes>
             <enable>True</enable><!--Valid values: True/False-->
+            <allow_vip>True</allow_vip><!--Valid values: True/False-->
         </quotes>
         <tf>
             <enable>True</enable><!--Valid values: True/False-->

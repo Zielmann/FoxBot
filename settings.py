@@ -95,6 +95,13 @@ def quotes_enabled():
         enable = True
     return enable
 
+def vip_quotes_allowed():
+    allowed = False
+    value = settings['modules']['quotes']['allow_vip']
+    if value.lower() == 'true':
+        allowed = True
+    return allowed
+
 def tf_enabled():
     enable = False
     value = settings['modules']['tf']['enable']
