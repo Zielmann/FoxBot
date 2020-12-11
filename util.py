@@ -20,6 +20,15 @@ def validateNumParameters(content, num):
         valid = True
     return valid    
 
+def is_vip(badges):
+    """
+    Returns True if input contains key 'vip'
+    """
+    if 'vip' in badges:
+        return True
+    else:
+        return False
+
 # Twitch API call to get stream's game ID. Currently broken.
 def checkGame(ctx, client_id, channel, game_name):
     """
