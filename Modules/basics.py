@@ -31,7 +31,7 @@ def get_commands():
     Returns:
         str: Contains all of the available commands to call
     """
-    return 'Available Commands: !bot, !github, !discord, !twitter, !avorion, !tfcheck, !quote'
+    return 'Link to list of commands: https://github.com/Zielmann/FoxBot/wiki/Available-Viewer-Commands'
 
 def get_uptime():
     """

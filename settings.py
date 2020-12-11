@@ -138,3 +138,10 @@ def counter_enabled():
     if value.lower() == 'true':
         enable = True
     return enable
+
+def vip_counter_allowed():
+    allowed = False
+    value = settings['modules']['counter']['allow_vip']
+    if value.lower() == 'true':
+        allowed = True
+    return allowed

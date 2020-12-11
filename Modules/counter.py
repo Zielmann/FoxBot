@@ -1,4 +1,5 @@
 import settings
+import util
 from twitchio.ext.commands.core import cog
 from twitchio.ext.commands.core import command
 
@@ -62,12 +63,12 @@ class Count:
             await ctx.channel.send(message)
 
     @command(name='add', aliases=['Add'])
-    async def incrememnt_counter(self,ctx):
+    async def increment_counter(self,ctx):
         """
         If value is provided after the counter name, increments the counter by the given value
         Otherwise increments the counter by one
         """
-        if ctx.author.is_mod:
+        if ctx.author.is_mod or (settings.vip_counter_allowed() and util.is_vip(ctx.author.badges)):
             counter, value = get_counter_and_value(ctx)
             if counter in active_counts:
                 if value:

@@ -50,6 +50,7 @@
         </avorion>
         <counter>
             <enable>True</enable><!--Valid values: True/False-->
+            <allow_vip>True</allow_vip><!--Valid values: True/False-->
         </counter>
     </modules>
 </settings>
