@@ -7,6 +7,7 @@ from twitchio.ext import commands
 
 # Load settings from settings.xml
 settings.load_settings()
+settings.check_min_setup()
 settings.configure_periodic_messages()
 chat_flag = True
 

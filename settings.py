@@ -1,11 +1,34 @@
 import xmltodict
 
+settings = dict()
+
 def load_settings():
+    global settings
     with open('Data/settings.xml') as f:
         settings = xmltodict.parse(f.read())['settings']
     return settings
 
-settings = load_settings()
+def check_min_setup():
+    param_missing = False
+    if not get_app_token():
+        param_missing = True
+        print('app_token not defined')
+    if not get_client_id():
+        param_missing = True
+        print('client_id not defined')
+    if not get_client_secret():
+        param_missing = True
+        print('client_secret not defined')
+    if not get_bot_account():
+        param_missing = True
+        print('bot_account not defined')
+    if not get_channel():
+        param_missing = True
+        print('channel not defined')
+
+    if param_missing:
+        #input('\nPress ENTER to exit')
+        quit()
 
 def get_app_token():
     return settings['bot_setup']['app_token']
