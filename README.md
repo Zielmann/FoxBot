@@ -109,7 +109,7 @@ Foxbot needs to be registered as an application with Twitch and granted access t
         <client_id>paste application Client ID here</client_id>
 ```
 
-9. Beneath the Client ID on the Twitch Dev Console, you will also see a Client Secret. If the value is displayed, copy it. If not, click the New Secret button, then click OK to accept generating a new secret. Copy the value shown and add it to the settings.xml file
+9. Beneath the Client ID on the Twitch Dev Console, you will also see a Client Secret. If the value is displayed, copy it. If not, click the New Secret button, then click OK to accept generating a new secret. Copy the value shown and add it to the settings.xml file. DO NOT SHARE THE CLIENT SECRET WITH ANYBODY
 
 ```xml
         <client_secret>paste application Client Secret here</client_secret>
