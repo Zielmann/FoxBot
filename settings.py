@@ -13,6 +13,9 @@ def get_app_token():
 def get_client_id():
     return settings['bot_setup']['client_id']
 
+def get_client_secret():
+    return settings['bot_setup']['client_secret']
+
 def get_bot_account():
     return settings['bot_setup']['bot_account']
 

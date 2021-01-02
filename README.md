@@ -109,19 +109,25 @@ Foxbot needs to be registered as an application with Twitch and granted access t
         <client_id>paste application Client ID here</client_id>
 ```
 
-9. Go to <https://twitchapps.com/tokengen/> to bring up the Twitch OAuth Token Generator
+9. Beneath the Client ID on the Twitch Dev Console, you will also see a Client Secret. If the value is displayed, copy it. If not, click the New Secret button, then click OK to accept generating a new secret. Copy the value shown and add it to the settings.xml file
 
-10. Paste the application Client ID into the Client ID field
+```xml
+        <client_secret>paste application Client Secret here</client_secret>
+```
 
-11. Copy and paste the following into the Scopes field
+10. Go to <https://twitchapps.com/tokengen/> to bring up the Twitch OAuth Token Generator
+
+11. Paste the application Client ID into the Client ID field
+
+12. Copy and paste the following into the Scopes field
 
 ```
 chat:edit chat:read whispers:edit whispers:read
 ```
 
-12. Click on the broken icon image to generate the token. This should prompt you to authroize the application to access your Twitch account. Click Authorize
+13. Click on the broken icon image to generate the token. This should prompt you to authroize the application to access your Twitch account. Click Authorize
 
-13. Now you should see a page with an OAuth token on it. This means the API connection setup is complete. You do not need to copy this token
+14. Now you should see a page with an OAuth token on it. This means the API connection setup is complete. You do not need to copy this token
 
 ### Run the Bot
 

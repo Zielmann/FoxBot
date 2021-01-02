@@ -46,7 +46,7 @@ def commands(ctx):
     response = 'Rimworld Commands: !item, !event, !iteminfo, !eventinfo, !mods'
     return response
 
-def mod_list():
+def mod_list(ctx):
     """
     Creates response containing rimworld mods
 
@@ -54,7 +54,8 @@ def mod_list():
         str: Mod list, as entered in settings.xml
     """
     response = ''
-    response = settings.get_rimworld_mods()
+    if util.checkGame(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel(), 'rimworld'):
+        response = settings.get_rimworld_mods()
     return response
 
 def item_search(ctx):
@@ -68,7 +69,7 @@ def item_search(ctx):
         str: Contains up to 500 characters of matching items
     """
     response = ''
-    if util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2) and util.checkGame(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel(), 'rimworld'):
         # Get item to search from message
         search = ctx.content.split()[1].lower()
         tries = 2
@@ -105,7 +106,7 @@ def event_search(ctx):
         str: Containins up to 500 characters of matching events
     """
     response = ''
-    if util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2) and util.checkGame(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel(), 'rimworld'):
         search = ctx.content.split()[1].lower()
         with open(event_file()) as e:
             events = json.load(e)
@@ -130,7 +131,7 @@ def event_detail_search(ctx):
         str: Contains details about the specified event
     """
     response = ''
-    if util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2) and util.checkGame(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel(), 'rimworld'):
         search = ctx.content.split()[1].lower()
         with open(event_file()) as e:
             events = json.load(e)
@@ -150,7 +151,7 @@ def item_detail_search(ctx):
         str: Contains details about the specified item
     """
     response = ''
-    if util.validateNumParameters(ctx.content, 2):
+    if util.validateNumParameters(ctx.content, 2) and util.checkGame(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel(), 'rimworld'):
         search = ctx.content.split()[1].lower()
         tries = 2
         for i in range(tries):
@@ -204,7 +205,7 @@ class Rimworld:
     # Send list of rimworld mods
     @command(name='mods', aliases = ['Mods'])
     async def mods(self, ctx):
-        message = mod_list()
+        message = mod_list(ctx)
         if message:
             await ctx.channel.send(message)
 
