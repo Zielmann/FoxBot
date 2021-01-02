@@ -32,16 +32,36 @@ def get_direct_tf_id():
     return settings['bot_setup']['custom_rewards']['direct_tf']
 
 def get_periodic_messages():
-    return settings['bot_setup']['scheduled_messages']['message']
+    return settings['bot_setup']['scheduled_messages']['messages']
+
+def configure_periodic_messages():
+    msg_list = settings['bot_setup']['scheduled_messages']['message']
+    settings['bot_setup']['scheduled_messages'].pop('message')
+    settings['bot_setup']['scheduled_messages'].update({'messages' : {}})
+    if msg_list:
+        msg_no = 0
+        if isinstance(msg_list, str):
+            settings['bot_setup']['scheduled_messages']['messages'].update({'1' : msg_list})
+        else:
+            for msg in msg_list:
+                if msg:
+                    msg_no = len(settings['bot_setup']['scheduled_messages']['messages']) + 1
+                    settings['bot_setup']['scheduled_messages']['messages'].update({str(msg_no) : msg})
+    return
 
 def add_periodic_message(msg):
-    if not get_periodic_messages():
-        settings['bot_setup']['scheduled_messages'].update({'message': msg})
-    elif isinstance(get_periodic_messages(), str):
-        m = get_periodic_messages()
-        settings['bot_setup']['scheduled_messages'].update({'message': [m , msg]})
+    msg_dict = get_periodic_messages()
+    msg_no = len(msg_dict) + 1
+    settings['bot_setup']['scheduled_messages']['messages'].update({str(msg_no) : msg})
+    return
+
+def remove_periodic_message(msg_no):
+    msg_dict = get_periodic_messages()
+    if msg_no in msg_dict.keys():
+        settings['bot_setup']['scheduled_messages']['messages'].pop(msg_no)
+        return True
     else:
-        settings['bot_setup']['scheduled_messages']['message'].append(msg)
+        return False
 
 def get_periodic_timer():
     if not settings['bot_setup']['scheduled_messages']['message_interval_minutes']:

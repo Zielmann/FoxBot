@@ -7,6 +7,7 @@ from twitchio.ext import commands
 
 # Load settings from settings.xml
 settings.load_settings()
+settings.configure_periodic_messages()
 chat_flag = True
 
 # Set up basic logging handler
@@ -38,32 +39,26 @@ async def start_periodic_messages():
     If no messages are configured, periodically checks if message has been added
 
     Parameters:
-        messags: a list of strings
+        messags: a dict of strings
     """
     global chat_flag
     while True:
-        messages = settings.get_periodic_messages()
+        messages = settings.get_periodic_messages().copy()
+        ws = bot._ws
         if messages:
-            interval = 60 * int(settings.get_periodic_timer())
-            ws = bot._ws
-            if isinstance(messages, str):
-                if chat_flag:
-                    await ws.send_privmsg(settings.get_channel(), messages)
+            if chat_flag:
+                for m in messages:
+                    interval = int((60 * int(settings.get_periodic_timer())) / len(messages))
+                    if interval == 0:
+                        interval = 1
+                    msg = f"({m}) {messages[m]}"
+                    await ws.send_privmsg(settings.get_channel(), msg)
                     chat_flag = False
-                await asyncio.sleep(interval)
-            else:
-                if chat_flag:
-                    for m in messages:
-                        interval = int((60 * int(settings.get_periodic_timer())) / len(messages))
-                        if interval == 0:
-                            interval = 1
-                        await ws.send_privmsg(settings.get_channel(), m)
-                        await asyncio.sleep(interval)
-                    chat_flag = False
-                else:
                     await asyncio.sleep(interval)
+            else:
+                await asyncio.sleep(60)
         else:
-            await asyncio.sleep(60 * int(settings.get_periodic_timer()))
+            await asyncio.sleep(300)
 
 # Bot startup confirmation
 @bot.event
@@ -102,7 +97,7 @@ async def event_message(ctx):
     elif 'custom-reward-id' in ctx.tags and ctx.tags['custom-reward-id'] == settings.get_direct_tf_id():
         reply = Modules.tf.redeem_direct(ctx)
         if reply:
-            await ctx.channel.send(reply)
+            await ctx.channel.send(reply)    
     await bot.handle_commands(ctx)
 
 #----------------------------------------------------#
@@ -150,6 +145,19 @@ async def add_message(ctx):
         else:
             await ctx.channel.send('No message provided')
 
+@bot.command(name='deletemessage', aliases=['deleteMessage', 'DeleteMessage', 'Deletemessage'])
+async def delete_message(ctx):
+    """
+    Deletes the specified message from the periodic message queue
+    Available only to streamer/moderators
+    Message number to be deleted must be provided along with the command
+    """
+    if ctx.author.is_mod:
+        message = ' '.join(map(str,ctx.content.split()[1:]))
+        if settings.remove_periodic_message(message):
+            await ctx.channel.send(f"Deleted message {message}")
+        else:
+            await ctx.channel.send(f"Message {message} not found")
 
 #----------------------------------------------------#
 
