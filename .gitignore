@@ -1,6 +1,8 @@
 __pycache__/
 .vscode/
 build/
+venv/
+dist/
 My Settings/
 Releases/
 FoxBot_log.txt
@@ -10,3 +12,4 @@ quotes.json
 bot.spec
 foxbot.bat
 RUN.bat
+SETUP.bat

@@ -30,22 +30,23 @@ def is_vip(badges):
         return False
 
 # Twitch API call to get stream's game ID. Currently broken.
-def checkGame(ctx, client_id, channel, game_name):
+def checkGame(ctx, client_id, client_secret, channel, game_name):
     """
     Returns True if the game_name is the Twitch streamer's current game
     """
-    if getGameName(ctx, client_id, channel).lower() == game_name.lower():
+    if getGameName(ctx, client_id, client_secret, channel).lower() == game_name.lower():
         return True
     else:
         return False
 
 # Twitch API calls to get stream's current game by name. Currently broken.
-def getGameName(ctx, client_id, channel):
+def getGameName(ctx, c_id, c_secret, channel):
     """
     Returns a string containing the current game being played by the streamer
     """
-    client = TwitchHelix(client_id)
-    stream = client.get_streams(user_logins=channel)._queue[0]
+    client = TwitchHelix(client_id = c_id, client_secret = c_secret)
+    client.get_oauth()
+    stream = client.get_streams(user_logins = channel)._queue[0]
     game_id = stream["game_id"]
     game_info = client.get_games(game_ids=game_id)
     game_name = game_info[0]["name"]

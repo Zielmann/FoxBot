@@ -41,7 +41,8 @@ def get_uptime():
         str: Contains the current amount of uptime for the channel
     """
     # Set up twitch API call and get stream info
-    client = TwitchHelix(client_id = settings.get_client_id())
+    client = TwitchHelix(client_id = settings.get_client_id(), client_secret = settings.get_client_secret())
+    client.get_oauth()
     stream = client.get_streams(user_logins = settings.get_channel())._queue[0]
     # Get stream start time (API sends UTC time) and calculate uptime
     start_time = stream["started_at"]

@@ -2,6 +2,7 @@
     <bot_setup>
         <app_token></app_token><!--See detailed setup instructions-->
         <client_id></client_id><!--See detailed setup instructions-->
+        <client_secret></client_secret><!--See detailed setup instructions-->
         <bot_account></bot_account><!--Account the bot will be running on-->
         <channel></channel><!--Stream channel name-->
         <command_prefix>!</command_prefix><!--Required-->
@@ -10,7 +11,7 @@
         <scheduled_messages>
             <message></message><!--Sets message to be sent periodically in chat-->
             <!--Copy/paste the previous line to set additional messages, as many as desired-->
-            <message_interval_minutes></message_interval_minutes><!--If multiple messages are set, they will be distributed evenly over this time-->
+            <message_interval_minutes>15</message_interval_minutes><!--If multiple messages are set, they will be distributed evenly over this time-->
         </scheduled_messages>
         <custom_rewards><!--IDs for each reward redemption the bot will respond to-->
             <random_tf>3735ec1b-b3bf-4775-959a-451c9be5e533</random_tf>

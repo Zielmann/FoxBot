@@ -56,13 +56,8 @@ def add(ctx):
                 number = '1'
             else:
                 number = str(int(list(quotes.keys())[-1]) + 1)
-            #game = util.getGameName(ctx,settings.get_client_id(),settings.get_channel())
-            if 'game:' in msg.lower():
-                quote = msg[:msg.lower().index("game:")].strip()
-                game = msg[msg.lower().index("game:")+len("game:"):].strip()
-            else:
-                quote = msg
-                game = ''
+            game = util.getGameName(ctx, settings.get_client_id(), settings.get_client_secret(), settings.get_channel())
+            quote = msg
             # Build dictionary to associate date and game with the quote
             raw_quote = {
                 "date": date,
@@ -71,7 +66,7 @@ def add(ctx):
                 }
             quotes[number] = raw_quote
             save_quotes(quotes)
-            response = str(number) + ': ' + quotes[number]["quote"] + ' - while playing ' + quotes[number]["game"] + ' on ' + quotes[number]["date"]
+            response = f"{number}: {quotes[number]['quote']} - while streaming {quotes[number]['game']} on {quotes[number]['date']}"
     return response
 
 def remove(ctx):
@@ -93,7 +88,7 @@ def remove(ctx):
             if number in quotes:
                 removed = quotes.pop(number)
                 save_quotes(quotes)
-                response = 'Deleted ' + number + ': ' + removed["quote"]
+                response = f"Deleted {number}: {removed['quote']}"
     return response
 
 def edit(ctx):
@@ -117,17 +112,17 @@ def edit(ctx):
                 new_game = new_quote[new_quote.lower().index("game:")+len("game:"):]
                 quotes[number]["game"] = new_game
                 save_quotes(quotes)
-                response = 'Updated ' + number + ' game to: ' + quotes[number]["game"]
+                response = f"Updated quote {number} game to: {quotes[number]['game']}"
             elif new_quote and number in quotes:
                 if 'game:' in new_quote.lower():
                     new_game = new_quote[new_quote.lower().index("game:")+len("game:"):].strip()
                     new_quote = new_quote[:new_quote.lower().index("game:")].strip()                 
                     quotes[number]["quote"] = new_quote
                     quotes[number]["game"] = new_game
-                    response = 'Updated ' + number + ': ' + quotes[number]["quote"] + ' - while playing ' + quotes[number]["game"]
+                    response = f"Updated {number}: {quotes[number]['quote']} - while streaming {quotes[number]['game']} on {quotes[number]['date']}"
                 else:
                     quotes[number]["quote"] = new_quote
-                    response = 'Updated ' + number + ': ' + quotes[number]["quote"]
+                    response = f"Updated {number}: {quotes[number]['quote']} - while streaming {quotes[number]['game']} on {quotes[number]['date']}"
                 save_quotes(quotes)
     return response
 
@@ -147,7 +142,7 @@ def search(ctx):
     search = ' '.join(map(str,ctx.content.split()[1:]))
     # If search was just a valid quote number, returns that quote
     if search in quotes:
-        response = str(search) + ': ' + quotes[search]["quote"] + ' - while playing ' + quotes[search]["game"] + ' on ' + quotes[search]["date"]
+        response = f"{search}: {quotes[search]['quote']} - while streaming {quotes[search]['game']} on {quotes[search]['date']}"
     else:
         results = []
         # Find all quotes containing provided search term
@@ -158,7 +153,7 @@ def search(ctx):
             # Chooses a random quote from the list of results
             number = random.randrange(len(results))
             selected = quotes[results[number]]
-            response = str(results[number]) + ': ' + selected["quote"] + ' - while playing ' + selected["game"] + ' on ' + selected["date"]
+            response = f"{results[number]}: {selected['quote']} - while streaming {selected['game']} on {selected['date']}"
     return response
 
 
