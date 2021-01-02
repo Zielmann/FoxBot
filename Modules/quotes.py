@@ -57,9 +57,9 @@ def add(ctx):
             else:
                 number = str(int(list(quotes.keys())[-1]) + 1)
             #game = util.getGameName(ctx,settings.get_client_id(),settings.get_channel())
-            if 'game:' in msg:
-                quote = msg.split('game:')[0].strip()
-                game = msg.split('game:')[1].strip()
+            if 'game:' in msg.lower():
+                quote = msg[:msg.lower().index("game:")].strip()
+                game = msg[msg.lower().index("game:")+len("game:"):].strip()
             else:
                 quote = msg
                 game = ''
@@ -113,15 +113,15 @@ def edit(ctx):
             number = content[1]
             # Creates string of updated quote, without !ediquote command or quote number
             new_quote = ' '.join(map(str,content[2:]))
-            if new_quote.startswith('game:') and number in quotes:
-                new_game = new_quote.split('game:')[1].strip()
+            if new_quote.lower().startswith('game:') and number in quotes:
+                new_game = new_quote[new_quote.lower().index("game:")+len("game:"):]
                 quotes[number]["game"] = new_game
                 save_quotes(quotes)
                 response = 'Updated ' + number + ' game to: ' + quotes[number]["game"]
             elif new_quote and number in quotes:
-                if 'game:' in new_quote:
-                    new_game = new_quote.split('game:')[1].strip()
-                    new_quote = new_quote.split('game:')[0].strip()
+                if 'game:' in new_quote.lower():
+                    new_game = new_quote[new_quote.lower().index("game:")+len("game:"):].strip()
+                    new_quote = new_quote[:new_quote.lower().index("game:")].strip()                 
                     quotes[number]["quote"] = new_quote
                     quotes[number]["game"] = new_game
                     response = 'Updated ' + number + ': ' + quotes[number]["quote"] + ' - while playing ' + quotes[number]["game"]
