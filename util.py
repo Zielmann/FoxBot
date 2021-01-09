@@ -46,8 +46,12 @@ def getGameName(ctx, c_id, c_secret, channel):
     """
     client = TwitchHelix(client_id = c_id, client_secret = c_secret)
     client.get_oauth()
-    stream = client.get_streams(user_logins = channel)._queue[0]
-    game_id = stream["game_id"]
-    game_info = client.get_games(game_ids=game_id)
-    game_name = game_info[0]["name"]
+    game_name = ''
+    try:
+        stream = client.get_streams(user_logins = channel)._queue[0]
+        game_id = stream["game_id"]
+        game_info = client.get_games(game_ids=game_id)
+        game_name = game_info[0]["name"]
+    except Exception as E:
+        print('Game info not available')
     return game_name
